@@ -64,7 +64,7 @@ public class SelectMenager
         {
             for (int j = 0; j < width; j++)
             {
-                BinMap[i, j] = Dbit(i * height + j, parent);
+                BinMap[i, j] = Dbit(i * width + j, parent);
             }
         }
     }

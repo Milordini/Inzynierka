@@ -23,18 +23,22 @@ public class BoardMaker : MonoBehaviour
 
     public void BuildMap()
     {
-        for (int i = 0; i < height; i++)
+        for (int i = 1; i < height+1; i++)
         {
-            for (int j = 0; j < width; j++)
+            for (int j = 1; j < width+1; j++)
             {
                 if (ChosePLate() % 2 == 0 || ChosePLate() % 3 == 0 || ChosePLate() % 7 == 0)
                 {
-                    Instantiate(WSquare, st, transform.rotation, transform);
+                    Square sq = Instantiate(WSquare, st, transform.rotation, transform).GetComponent<Square>();
+                    sq.setX(j);
+                    sq.setY(i);
                     st += Vector2.right;
                 }
                 else
                 {
-                    Instantiate(BSquare, st, transform.rotation, transform);
+                    Square sq = Instantiate(BSquare, st, transform.rotation, transform).GetComponent<Square>();
+                    sq.setX(j);
+                    sq.setY(i);
                     st += Vector2.right;
                 }
             }

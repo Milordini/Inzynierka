@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
+using System.Xml;
 using UnityEditor;
 using UnityEngine;
 
@@ -32,6 +33,7 @@ public class BoardMaker : MonoBehaviour
                     Square sq = Instantiate(WSquare, st, transform.rotation, transform).GetComponent<Square>();
                     sq.setX(j);
                     sq.setY(i);
+                    sq.setCanWalk(true);
                     st += Vector2.right;
                 }
                 else
@@ -39,6 +41,7 @@ public class BoardMaker : MonoBehaviour
                     Square sq = Instantiate(BSquare, st, transform.rotation, transform).GetComponent<Square>();
                     sq.setX(j);
                     sq.setY(i);
+                    sq.setCanWalk(false);
                     st += Vector2.right;
                 }
             }

@@ -7,7 +7,7 @@ public class SelectMenager
     private static SelectMenager _instance;
     private GameObject selected1, selected2;
     private int[,] BinMap = null;
-
+    AStar astar = new AStar(GetGrid());
     private SelectMenager() { }
 
     public static SelectMenager GetInstance()
@@ -31,6 +31,7 @@ public class SelectMenager
             {
                 selected2 = selected;
                 SR.color = Color.blue;
+                
             }
             else
             {
@@ -57,6 +58,18 @@ public class SelectMenager
     
     }
 
+    //private Square[,] GetGrid(int height, int width)
+    //{
+    //    Square[,] grid;
+    //    for (int i = 0; i < height; i++)
+    //    {
+    //        for (int j = 0; j < width; j++)
+    //        {
+    //            BinMap[i, j] = (i * width + j);
+    //        }
+    //    }
+    //}
+
     public void MakeBitMap(int height, int width, Transform parent)
     {
         BinMap = new int[height, width];
@@ -72,10 +85,10 @@ public class SelectMenager
 
     private int Dbit(int x, Transform parent)
     {
-        string tg = parent.GetChild(x).tag;
-        if (tg == "White")
+        Square sq = parent.GetChild(x).GetComponent<Square>();
+        if (sq.getCanWalk())
             return 1;
-        else if (tg == "Black")
+        else if (sq.getCanWalk())
             return 0;
         else
             return -1;

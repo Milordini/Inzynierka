@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Threading;
 using Unity.Mathematics;
@@ -12,8 +13,6 @@ public class AStar
     private Square[,] grid;
     private int width;
     private int height;
-    private int[] _dx = { -1, 1, 0, 0 };
-    private int[] _dy = { 0, 0, -1, 1 };
     public AStar(Square[,] square)
     {
         grid = square;
@@ -28,92 +27,59 @@ public class AStar
     //    return dx + dy;
     //}
 
-    private List<Node> getNeighbors(Node nd)
+    private List<Square> getNeighbors(Square nd)
     { 
-        List<Node> neighbors = new List<Node>();
+        List<Square> neighbors = new List<Square>();
 
-        for(int i=0; i<4; i++) 
-        {
-            int newX = nd.sq.getX() + _dx[i];
-            int newY = nd.sq.getY() + _dy[i];
+        for(int x=-1; x<=1; x++) 
+            for(int y = -1; y <= 1; y++)
+            {
+                if (x == 0 && y == 0)
+                    continue;
 
-            if (newX > 0 && newX < width && newY > 0 && newY < height)
-                neighbors.Add(new Node(grid[newX, newY]));
+                int newX = nd.X + x;
+                int newY = nd.Y + y;
 
-        }
+                if(newX >= 0 && newX <  width && newY >= 0 && newY < height)
+                    neighbors.Add(grid[newX, newY]);
+            }
+        
         return neighbors;
     }
-    public List<Square> findPath(Node start, Node end)
+    public List<Square> findPath(Square start, Square end)
     {
-        //List<Node> openList = new List<Node>();
-        //HashSet<Node> closedList = new HashSet<Node>();
-
-        //Node startNode = start;
-        //Node endNode = end;
-        //openList.Add(startNode);
-
-        //    Node currentNode = openList[0];
-        //while (openList.Count > 0)
-        //{
-        //    for (int i = 1; i < openList.Count; i++)
-        //        if (openList[i].F < currentNode.F || (openList[i].F == currentNode.F && openList[i].H < currentNode.H))
-        //            currentNode = openList[i];
-
-        //    if (currentNode.sq == endNode.sq)
-        //        return RetracePath(startNode, currentNode);
-
-        //    openList.Remove(currentNode);
-        //    closedList.Add(currentNode);
-
-        //    foreach (var neigbor in getNeighbors(currentNode))
-        //    {
-        //        if (!neigbor.sq.getCanWalk() || closedList.Contains(neigbor))
-        //            continue;
-
-        //        int movementCost = currentNode.G + 1;
-        //        if (movementCost < neigbor.G || !openList.Contains(neigbor))
-        //        {
-        //            neigbor.G = movementCost;
-        //            neigbor.H = GetHeuristic(neigbor.sq, endNode.sq);
-        //            neigbor.parent = currentNode;
-
-        //            if (!openList.Contains(neigbor))
-        //                openList.Add(neigbor);
-
-
-        //        }
-        //    }
-        //}
-        //return new List<Square>();
         Debug.Log("kurwa");
-        List<Node> closedSet = new List<Node>();
-        List<Node> openSet = new List<Node>();
+        List<Square> openSet = new List<Square>();
+        HashSet<Square> closedSet = new HashSet<Square>();
         openSet.Add(start);
-
+        start.H = 0;
+        start.G = 0;
         while (openSet.Count > 0)
         {
         Debug.Log("while "+openSet.Count);
-        Node curren = openSet[0];
+        Square curent = openSet[0];
             
-            for (int i = 0; i < openSet.Count; i++)
-                if (openSet[i].F < curent.F || openSet[i].F == current.F && openSet[i].H < current.H)
+            for (int i = 1; i < openSet.Count; i++)
+                if (openSet[i].F < curent.F || openSet[i].F == curent.F && openSet[i].H < curent.H)
                 { curent = openSet[i]; Debug.Log("if1"); }
+
+            openSet.Remove(curent);
+            curent.gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
+            closedSet.Add(curent);
 
             if (curent == end)
             {Debug.Log("if2"); return RetracePath(start, curent); }
 
-            openSet.Remove(curent);
-            closedSet.Add(curent);
-            foreach(Node neighbor in getNeighbors(curent))
+            foreach(Square neighbor in getNeighbors(curent))
             {
                 Debug.Log("forech");
 
-                if (closedSet.Contains(neighbor))
+                if (!neighbor.canWalk ||closedSet.Contains(neighbor))
                     continue;
                 
-                int movecost = curent.G + getDistance(current,neighbor);
+                int movecost = curent.G + getDistance(curent,neighbor);
 
-                if(!openSet.Contains(neighbor) || movecost < neighbor.G)
+                if(movecost < neighbor.G || !openSet.Contains(neighbor))
                 {
                     neighbor.G = movecost;
                     neighbor.H = getDistance(neighbor,end);
@@ -125,15 +91,23 @@ public class AStar
         }
         return new List<Square>();
     }
+    public int getDistance(Square a, Square b)
+    {
+        int dstX = Mathf.Abs(a.X - b.X);
+        int dstY = Mathf.Abs(a.Y - b.Y);
+        if (dstX > dstY)
+            return 14*dstY + 10 * (dstX - dstY);
+        return 14*dstX + 10 * (dstY - dstX);
 
-    private List<Square> RetracePath(Node startNode, Node endNode)
+    }
+    private List<Square> RetracePath(Square startNode, Square endNode)
     {
         List<Square> path = new List<Square>();
-        Node currentNode = endNode;
+        Square currentNode = endNode;
 
         while (currentNode != startNode)
         {
-            path.Add(currentNode.sq);
+            path.Add(currentNode);
             currentNode = currentNode.parent;
         }
         path.Reverse();
@@ -142,36 +116,28 @@ public class AStar
 
 }
 
-public class Node
-{
-    public Square sq { get; set; }
-    public Node parent { get; set; }
-    public int G{  get; set; }
-    public int H { get; set; }
-    public int F { get { return G + H; } }
-    public Node(Square square)
-    {
-        sq = square;
-    }
+//public class Node
+//{
+//    public Square sq { get; set; }
+//    public Node parent { get; set; }
+//    public int G{  get; set; }
+//    public int H { get; set; }
+//    public int F { get { return G + H; } }
+//    public Node(Square square)
+//    {
+//        sq = square;
+//    }
 
 
-    public int getDistance(Node a,Node b)
-    {
-        int dstX = Mathf.Abs(a.sq.getX() - b.sq.getX())
-        int dstY = Mathf.Abs(a.sq.getY() - b.sq.getY())
-        if(dstX > dstY)
-            return dstY + 10* (dstX - dstY);
-        return dstX + 10*(dstY-dst);
-            
-    }
-    public int heuristic(Square sq)
-    {
-    //    this.H = Mathf.Sqrt(Mathf.Pow(sq.getX() - this.sq.getX(), 2) + Mathf.Pow(sq.getY() - this.sq.getY(), 2));
-    //    return H;
-        H = Mathf.Abs((this.sq.getX() - sq.getX()) + (this.sq.getY() - sq.getY()));
-        return H;
-    }
-}
+   
+//    public int heuristic(Square sq)
+//    {
+//    //    this.H = Mathf.Sqrt(Mathf.Pow(sq.getX() - this.sq.getX(), 2) + Mathf.Pow(sq.getY() - this.sq.getY(), 2));
+//    //    return H;
+//        H = Mathf.Abs((this.sq.getX() - sq.getX()) + (this.sq.getY() - sq.getY()));
+//        return H;
+//    }
+//}
 
 
 

@@ -68,38 +68,38 @@ public class SelectMenager
 
     public void makePath()
     {
-        AStar ast = new AStar(GetGrid(height, width, Parent));
-        List<Square> path = ast.findPath(new Node(selected1.GetComponent<Square>()), new Node(selected2.GetComponent<Square>()));
+        AStar ast = new AStar(GetGrid(height, width));
+        List<Square> path = ast.findPath(selected1.GetComponent<Square>(), selected2.GetComponent<Square>());
 
         foreach(Square square in path)
         {
-            Debug.Log("X = " + square.getX());
-            Debug.Log("Y = " + square.getY());
+            Debug.Log("X = " + square.X);
+            Debug.Log("Y = " + square.Y);
             square.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
         }
     }
 
-    public Square[,] GetGrid(int height, int width, Transform parent)
+    public Square[,] GetGrid(int height, int width)
     {
         grid = new Square[width,height];
         for (int i = 0; i < height; i++)
         {
             for (int j = 0; j < width; j++)
             {
-                grid[j, i] = parent.GetChild(i * width + j).GetComponent<Square>();
+                grid[j, i] = Parent.GetChild(i * width + j).GetComponent<Square>();
             }
         }
         return grid;
     }
 
-    public void MakeBitMap(int height, int width, Transform parent)
+    public void MakeBitMap(int height, int width)
     {
         BinMap = new int[width, height];
         for (int i = 0; i < height; i++)
         {
             for (int j = 0; j < width; j++)
             {
-                BinMap[j, i] = Dbit(i * width + j, parent);
+                BinMap[j, i] = Dbit(i * width + j, Parent);
             }
         }
     }
@@ -108,9 +108,9 @@ public class SelectMenager
     private int Dbit(int x, Transform parent)
     {
         Square sq = parent.GetChild(x).GetComponent<Square>();
-        if (sq.getCanWalk())
+        if (sq.canWalk)
             return 1;
-        else if (sq.getCanWalk())
+        else if (!sq.canWalk)
             return 0;
         else
             return -1;

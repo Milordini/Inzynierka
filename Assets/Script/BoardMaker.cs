@@ -31,17 +31,17 @@ public class BoardMaker : MonoBehaviour
                 if (ChosePLate() % 2 == 0 || ChosePLate() % 3 == 0 || ChosePLate() % 7 == 0)
                 {
                     Square sq = Instantiate(WSquare, st, transform.rotation, transform).GetComponent<Square>();
-                    sq.setX(j);
-                    sq.setY(i);
-                    sq.setCanWalk(true);
+                    sq.X=j;
+                    sq.Y = i;
+                    sq.canWalk = true;
                     st += Vector2.right;
                 }
                 else
                 {
                     Square sq = Instantiate(BSquare, st, transform.rotation, transform).GetComponent<Square>();
-                    sq.setX(j);
-                    sq.setY(i);
-                    sq.setCanWalk(false);
+                    sq.X = j;
+                    sq.Y = i;
+                    sq.canWalk = false;
                     st += Vector2.right;
                 }
             }
@@ -49,7 +49,7 @@ public class BoardMaker : MonoBehaviour
         }
         SLinstance = SelectMenager.GetInstance();
         SLinstance.setData(width, height, transform);
-        SLinstance.MakeBitMap(height,width,transform);
+        SLinstance.MakeBitMap(height,width);
         doPliku(SLinstance.getBitMap());
     }
 

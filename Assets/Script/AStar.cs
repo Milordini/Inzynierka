@@ -89,14 +89,14 @@ public class AStar
         List<Node> closedSet = new List<Node>();
         List<Node> openSet = new List<Node>();
         openSet.Add(start);
-        Node curent = start;
 
         while (openSet.Count > 0)
         {
         Debug.Log("while "+openSet.Count);
-
+        Node curren = openSet[0];
+            
             for (int i = 0; i < openSet.Count; i++)
-                if (openSet[i].F < curent.F)
+                if (openSet[i].F < curent.F || openSet[i].F == current.F && openSet[i].H < current.H)
                 { curent = openSet[i]; Debug.Log("if1"); }
 
             if (curent == end)
@@ -111,12 +111,13 @@ public class AStar
                 if (closedSet.Contains(neighbor))
                     continue;
                 
-                int movecost = curent.G + 10;
+                int movecost = curent.G + getDistance(current,neighbor);
 
                 if(!openSet.Contains(neighbor) || movecost < neighbor.G)
                 {
                     neighbor.G = movecost;
-                    neighbor.H = neighbor.heuristic(end.sq);
+                    neighbor.H = getDistance(neighbor,end);
+                    neighbor.parent = curent;
                     if(!openSet.Contains(neighbor))
                         openSet.Add(neighbor);
                 }
@@ -135,8 +136,7 @@ public class AStar
             path.Add(currentNode.sq);
             currentNode = currentNode.parent;
         }
-        path.Add(startNode.sq);
-        //path.Reverse();
+        path.Reverse();
         return path;
     }
 
@@ -154,6 +154,16 @@ public class Node
         sq = square;
     }
 
+
+    public int getDistance(Node a,Node b)
+    {
+        int dstX = Mathf.Abs(a.sq.getX() - b.sq.getX())
+        int dstY = Mathf.Abs(a.sq.getY() - b.sq.getY())
+        if(dstX > dstY)
+            return dstY + 10* (dstX - dstY);
+        return dstX + 10*(dstY-dst);
+            
+    }
     public int heuristic(Square sq)
     {
     //    this.H = Mathf.Sqrt(Mathf.Pow(sq.getX() - this.sq.getX(), 2) + Mathf.Pow(sq.getY() - this.sq.getY(), 2));

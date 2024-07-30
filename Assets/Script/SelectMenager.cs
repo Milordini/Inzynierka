@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class SelectMenager
 {
+    private int width, height;
+    Transform Parent;
     private static SelectMenager _instance;
     private GameObject selected1, selected2;
     private int[,] BinMap = null;
-    AStar astar = new AStar(GetGrid());
+    Square[,] grid;
     private SelectMenager() { }
 
     public static SelectMenager GetInstance()
@@ -17,6 +19,11 @@ public class SelectMenager
             _instance = new SelectMenager();
         }
         return _instance;
+    }
+
+    public void setData(int w, int h, Transform p)
+    {
+        width = w; height = h; Parent = p;
     }
 
     public void SetSelected(GameObject selected, SpriteRenderer SR)
@@ -31,6 +38,7 @@ public class SelectMenager
             {
                 selected2 = selected;
                 SR.color = Color.blue;
+                makePath();
                 
             }
             else
@@ -58,26 +66,40 @@ public class SelectMenager
     
     }
 
-    //private Square[,] GetGrid(int height, int width)
-    //{
-    //    Square[,] grid;
-    //    for (int i = 0; i < height; i++)
-    //    {
-    //        for (int j = 0; j < width; j++)
-    //        {
-    //            BinMap[i, j] = (i * width + j);
-    //        }
-    //    }
-    //}
-
-    public void MakeBitMap(int height, int width, Transform parent)
+    public void makePath()
     {
-        BinMap = new int[height, width];
+        AStar ast = new AStar(GetGrid(height, width, Parent));
+        List<Square> path = ast.findPath(new Node(selected1.GetComponent<Square>()), new Node(selected2.GetComponent<Square>()));
+
+        foreach(Square square in path)
+        {
+            Debug.Log("X = " + square.getX());
+            Debug.Log("Y = " + square.getY());
+            square.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+        }
+    }
+
+    public Square[,] GetGrid(int height, int width, Transform parent)
+    {
+        grid = new Square[width,height];
         for (int i = 0; i < height; i++)
         {
             for (int j = 0; j < width; j++)
             {
-                BinMap[i, j] = Dbit(i * width + j, parent);
+                grid[j, i] = parent.GetChild(i * width + j).GetComponent<Square>();
+            }
+        }
+        return grid;
+    }
+
+    public void MakeBitMap(int height, int width, Transform parent)
+    {
+        BinMap = new int[width, height];
+        for (int i = 0; i < height; i++)
+        {
+            for (int j = 0; j < width; j++)
+            {
+                BinMap[j, i] = Dbit(i * width + j, parent);
             }
         }
     }

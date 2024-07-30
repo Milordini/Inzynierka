@@ -48,6 +48,7 @@ public class BoardMaker : MonoBehaviour
             st = new Vector2(0.5f, st.y - 1);
         }
         SLinstance = SelectMenager.GetInstance();
+        SLinstance.setData(width, height, transform);
         SLinstance.MakeBitMap(height,width,transform);
         doPliku(SLinstance.getBitMap());
     }
@@ -73,7 +74,7 @@ public class BoardMaker : MonoBehaviour
         {
             for (int j = 0; j < width; j++)
             {
-                sw.Write(tab[i, j]);
+                sw.Write(tab[j, i]);
                 sw.Write(' ');
             }
             sw.Write('\n');

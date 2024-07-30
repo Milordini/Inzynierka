@@ -24,9 +24,9 @@ public class BoardMaker : MonoBehaviour
 
     public void BuildMap()
     {
-        for (int i = 1; i < height+1; i++)
+        for (int i = 0; i < height; i++)
         {
-            for (int j = 1; j < width+1; j++)
+            for (int j = 0; j < width; j++)
             {
                 if (ChosePLate() % 2 == 0 || ChosePLate() % 3 == 0 || ChosePLate() % 7 == 0)
                 {

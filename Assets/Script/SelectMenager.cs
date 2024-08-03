@@ -66,12 +66,25 @@ public class SelectMenager
     
     }
 
+    //public void makePath()
+    //{
+    //    AStar ast = new AStar(GetGrid(height, width));
+    //    List<Square> path = ast.findPath(selected1.GetComponent<Square>(), selected2.GetComponent<Square>());
+
+    //    foreach(Square square in path)
+    //    {
+    //        Debug.Log("X = " + square.X);
+    //        Debug.Log("Y = " + square.Y);
+    //        square.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+    //    }
+    //}
+
     public void makePath()
     {
-        AStar ast = new AStar(GetGrid(height, width));
-        List<Square> path = ast.findPath(selected1.GetComponent<Square>(), selected2.GetComponent<Square>());
+        Djikstra dj = new Djikstra(GetGrid(height, width));
+        List<Square> path = dj.findPath(selected1.GetComponent<Square>(), selected2.GetComponent<Square>());
 
-        foreach(Square square in path)
+        foreach (Square square in path)
         {
             Debug.Log("X = " + square.X);
             Debug.Log("Y = " + square.Y);

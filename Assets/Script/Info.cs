@@ -10,6 +10,7 @@ public class Info : MonoBehaviour
     [SerializeField] public Square parent ;
     [SerializeField] public int G ;
     [SerializeField] public int H ;
+    [SerializeField] public float Distance ;
     private Square sq;
 
     void Update()
@@ -20,5 +21,6 @@ public class Info : MonoBehaviour
         canWalk= sq.canWalk;
         G=sq.G; H=sq.H;
         parent = sq.parent;
+        Distance = sq.distance;
     }
 }

@@ -20,12 +20,6 @@ public class AStar
         height = square.GetLength(1);
     }
 
-    //private int GetHeuristic(Square a, Square b)
-    //{
-    //    int dx = Mathf.Abs(a.getX() - b.getX());
-    //    int dy = Mathf.Abs(a.getY() - b.getY());
-    //    return dx + dy;
-    //}
 
     private List<Square> getNeighbors(Square nd)
     { 
@@ -48,31 +42,31 @@ public class AStar
     }
     public List<Square> findPath(Square start, Square end)
     {
-        Debug.Log("kurwa");
         List<Square> openSet = new List<Square>();
         HashSet<Square> closedSet = new HashSet<Square>();
         openSet.Add(start);
         start.H = 0;
         start.G = 0;
+
         while (openSet.Count > 0)
         {
-        Debug.Log("while "+openSet.Count);
         Square curent = openSet[0];
             
             for (int i = 1; i < openSet.Count; i++)
                 if (openSet[i].F < curent.F || openSet[i].F == curent.F && openSet[i].H < curent.H)
-                { curent = openSet[i]; Debug.Log("if1"); }
+                    curent = openSet[i];
 
             openSet.Remove(curent);
+            
             curent.gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
+            Thread.Sleep(100);
             closedSet.Add(curent);
 
             if (curent == end)
-            {Debug.Log("if2"); return RetracePath(start, curent); }
+                return RetracePath(start, curent); 
 
             foreach(Square neighbor in getNeighbors(curent))
             {
-                Debug.Log("forech");
 
                 if (!neighbor.canWalk ||closedSet.Contains(neighbor))
                     continue;
@@ -115,29 +109,4 @@ public class AStar
     }
 
 }
-
-//public class Node
-//{
-//    public Square sq { get; set; }
-//    public Node parent { get; set; }
-//    public int G{  get; set; }
-//    public int H { get; set; }
-//    public int F { get { return G + H; } }
-//    public Node(Square square)
-//    {
-//        sq = square;
-//    }
-
-
-   
-//    public int heuristic(Square sq)
-//    {
-//    //    this.H = Mathf.Sqrt(Mathf.Pow(sq.getX() - this.sq.getX(), 2) + Mathf.Pow(sq.getY() - this.sq.getY(), 2));
-//    //    return H;
-//        H = Mathf.Abs((this.sq.getX() - sq.getX()) + (this.sq.getY() - sq.getY()));
-//        return H;
-//    }
-//}
-
-
 

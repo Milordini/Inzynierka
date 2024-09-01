@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4903029372478197553}
   - component: {fileID: 6492522471750754099}
   - component: {fileID: 2064249604838355705}
+  - component: {fileID: 2516207813803962222}
   m_Layer: 0
   m_Name: Square (1)
   m_TagString: Black
@@ -118,3 +119,16 @@ MonoBehaviour:
   parent: {fileID: 0}
   G: 0
   H: 0
+  Distance: 0
+--- !u!114 &2516207813803962222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8238260818283670688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e84c0d2072c7ec45873566a0c21463b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

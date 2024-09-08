@@ -21,7 +21,7 @@ public class Menu : MonoBehaviour
     {
         obj = this.gameObject;
         but_text = but.GetComponentInChildren<TMP_Text>();
-        but.onClick.AddListener(Toglle);
+        //but.onClick.AddListener(Toglle);
     }
     public void Toglle()
     {

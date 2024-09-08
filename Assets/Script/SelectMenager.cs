@@ -14,10 +14,9 @@ public class SelectMenager
 
     public static SelectMenager GetInstance()
     {
-        if(_instance==null)
-        {
+        if (_instance == null)
             _instance = new SelectMenager();
-        }
+
         return _instance;
     }
 
@@ -28,7 +27,8 @@ public class SelectMenager
 
     public void SetSelected(GameObject selected, SpriteRenderer SR)
     {
-        if (selected1 != selected && selected2 != selected) {
+        if (selected1 != selected && selected2 != selected)
+        {
             if (selected1 == null)
             {
                 selected1 = selected;
@@ -38,8 +38,6 @@ public class SelectMenager
             {
                 selected2 = selected;
                 SR.color = Color.blue;
-                makePath();
-                
             }
             else
             {
@@ -53,17 +51,18 @@ public class SelectMenager
         }
         else
         {
-            if(selected1 == selected) {
+            if (selected1 == selected)
+            {
                 selected1.GetComponent<SpriteRenderer>().color = Color.white;
                 selected1 = null;
             }
-            else if(selected2 == selected)
+            else if (selected2 == selected)
             {
                 selected2.GetComponent<SpriteRenderer>().color = Color.white;
                 selected2 = null;
             }
         }
-    
+
     }
 
     //public void makePath()
@@ -94,7 +93,7 @@ public class SelectMenager
 
     public Square[,] GetGrid(int height, int width)
     {
-        grid = new Square[width,height];
+        grid = new Square[width, height];
         for (int i = 0; i < height; i++)
         {
             for (int j = 0; j < width; j++)

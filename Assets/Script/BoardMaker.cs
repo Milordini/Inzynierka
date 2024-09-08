@@ -1,10 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
-using System.Xml;
-using UnityEditor;
 using UnityEngine;
 
 public class BoardMaker : MonoBehaviour
@@ -31,6 +27,14 @@ public class BoardMaker : MonoBehaviour
         w = tab[0];
         h = tab[1];
         tryb = tab[2];
+
+        if (transform.childCount != 0)
+        {
+            st = new Vector2(0.5f, -0.5f);
+            for (int i = transform.childCount - 1; i >= 0; i--)
+                Destroy(transform.GetChild(i).gameObject);
+        }
+
 
         if (tryb == 0)
         {

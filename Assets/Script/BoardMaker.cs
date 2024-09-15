@@ -12,7 +12,6 @@ public class BoardMaker : MonoBehaviour
     [SerializeField] private int w = 10;
     [SerializeField] private int tryb = 0;
     [SerializeField] SelectMenager SLinstance;
-    [SerializeField] private GameObject Obstacle;
     [SerializeField] private Menu mn;
 
     void Start()
@@ -93,8 +92,6 @@ public class BoardMaker : MonoBehaviour
                 st = new Vector2(0.5f, st.y - 1);
             }
         }
-        Obstacle.transform.position = new Vector2(w / 2.0f, -h / 2.0f);
-        Obstacle.GetComponent<BoxCollider2D>().size = new Vector2(w, h);
         SLinstance = SelectMenager.GetInstance();
         SLinstance.setData(w, h, transform);
         SLinstance.MakeBitMap(h, w);

@@ -37,7 +37,7 @@ public class Djikstra
             {
                 if (!square.canWalk)
                     continue;
-                float newdistance = u.distance + 1;
+                float newdistance = u.distance +getDistance(u,square);
                 if(newdistance <= square.distance)
                 {
                     square.distance = newdistance;
@@ -68,13 +68,13 @@ public class Djikstra
         return neighbors;
     }
 
-    //private float getDistance(Square a, Square b)
-    //{
-    //    if (a.X == b.X || a.Y == b.Y)
-    //        return 1;
-    //    return 0.9f;
+    private float getDistance(Square a, Square b)
+    {
+        if (a.X == b.X || a.Y == b.Y)
+            return 1;
+        return 1.4f;
 
-    //}
+    }
 
     private List<Square> retracePath(Square start, Square target)
     {

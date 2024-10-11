@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class BoardMaker : MonoBehaviour
     [SerializeField] private Vector2 st = new Vector2(0.5f, -0.5f);
     [SerializeField] private GameObject WSquare;
     [SerializeField] private GameObject BSquare;
+    private Transform Me;
     [SerializeField] private int h = 10;
     [SerializeField] private int w = 10;
     [SerializeField] private int tryb = 0;
@@ -16,6 +18,7 @@ public class BoardMaker : MonoBehaviour
 
     void Start()
     {
+        Me = transform;
         BuildMap();
     }
 
@@ -125,5 +128,20 @@ public class BoardMaker : MonoBehaviour
             sw.Write('\n');
         }
         sw.Close();
+    }
+    static public void pathScreen(List<Square> path,Transform par)
+    {
+        GameObject pathPref = Resources.Load<GameObject>("Pref/Square (2)");
+        if (pathPref == null)
+            Debug.Log("kurwa");
+        foreach (Square square in path)
+        {
+            Debug.Log("X = " + square.X);
+            Debug.Log("Y = " + square.Y);
+            GameObject sq = Instantiate(pathPref, square.transform.position, square.transform.rotation, par);
+            sq.transform.position = new Vector3(sq.transform.position.x, sq.transform.position.y, -1f);
+            if(square == path[0])
+                sq.GetComponent<SpriteRenderer>().color = Color.blue;
+        }
     }
 }

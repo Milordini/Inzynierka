@@ -104,7 +104,6 @@ public class AStar
             path.Add(currentNode);
             currentNode = currentNode.parent;
         }
-        path.Reverse();
         return path;
     }
 

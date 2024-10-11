@@ -1,5 +1,7 @@
-using System.Collections;
+using System.IO;
 using System.Collections.Generic;
+using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class SelectMenager
@@ -10,6 +12,7 @@ public class SelectMenager
     private GameObject selected1, selected2;
     private int[,] BinMap = null;
     Square[,] grid;
+
     private SelectMenager() { }
 
     public static SelectMenager GetInstance()
@@ -69,67 +72,60 @@ public class SelectMenager
     {
         AStar ast = new AStar(GetGrid(height, width));
         List<Square> path = ast.findPath(selected1.GetComponent<Square>(), selected2.GetComponent<Square>());
-
-        foreach (Square square in path)
-        {
-            Debug.Log("X = " + square.X);
-            Debug.Log("Y = " + square.Y);
-            square.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
-        }
+        GameObject pathBoard = new GameObject();
+        pathBoard.transform.position = Parent.position;
+        BoardMaker.pathScreen(path, pathBoard.transform);
     }
 
     public void makePathDjikstra()
     {
         Djikstra dj = new Djikstra(GetGrid(height, width));
         List<Square> path = dj.findPath(selected1.GetComponent<Square>(), selected2.GetComponent<Square>());
-
-        foreach (Square square in path)
-        {
-            Debug.Log("X = " + square.X);
-            Debug.Log("Y = " + square.Y);
-            square.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
-        }
+        GameObject pathBoard = new GameObject();
+        pathBoard.transform.position = Parent.position;
+        BoardMaker.pathScreen(path, pathBoard.transform);
     }
+
 
     public Square[,] GetGrid(int height, int width)
+{
+    grid = new Square[width, height];
+    for (int i = 0; i < height; i++)
     {
-        grid = new Square[width, height];
-        for (int i = 0; i < height; i++)
+        for (int j = 0; j < width; j++)
         {
-            for (int j = 0; j < width; j++)
-            {
-                grid[j, i] = Parent.GetChild(i * width + j).GetComponent<Square>();
-            }
-        }
-        return grid;
-    }
-
-    public void MakeBitMap(int height, int width)
-    {
-        BinMap = new int[width, height];
-        for (int i = 0; i < height; i++)
-        {
-            for (int j = 0; j < width; j++)
-            {
-                BinMap[j, i] = Dbit(i * width + j, Parent);
-            }
+            grid[j, i] = Parent.GetChild(i * width + j).GetComponent<Square>();
         }
     }
+    return grid;
+}
 
-
-    private int Dbit(int x, Transform parent)
+public void MakeBitMap(int height, int width)
+{
+    BinMap = new int[width, height];
+    for (int i = 0; i < height; i++)
     {
-        Square sq = parent.GetChild(x).GetComponent<Square>();
-        if (sq.canWalk)
-            return 1;
-        else if (!sq.canWalk)
-            return 0;
-        else
-            return -1;
+        for (int j = 0; j < width; j++)
+        {
+            BinMap[j, i] = Dbit(i * width + j, Parent);
+        }
     }
+}
 
-    public int[,] getBitMap()
-    {
-        return BinMap;
-    }
+
+private int Dbit(int x, Transform parent)
+{
+    Square sq = parent.GetChild(x).GetComponent<Square>();
+    if (sq.canWalk)
+        return 1;
+    else if (!sq.canWalk)
+        return 0;
+    else
+        return -1;
+}
+
+public int[,] getBitMap()
+{
+    return BinMap;
+}
 }

@@ -58,8 +58,8 @@ public class AStar
 
             openSet.Remove(curent);
             
-            curent.gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
-            Thread.Sleep(100);
+            //curent.gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
+            //Thread.Sleep(100);
             closedSet.Add(curent);
 
             if (curent == end)

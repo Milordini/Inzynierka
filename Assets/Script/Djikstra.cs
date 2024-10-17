@@ -15,8 +15,11 @@ public class Djikstra
         height = _grid.GetLength(1);
     }
 
+    public List<Square> findPath(Square start, Square end)
     {
+        List<Square> q = new List<Square>();
         
+        foreach(Square square in grid)
         {
             square.distance = Mathf.Infinity;
             square.parent = null;
@@ -25,10 +28,12 @@ public class Djikstra
         start.distance = 0;
         while(q.Count>0)
         {
+            Square u = q[0];
             for(int i = 1; i < q.Count; i++)
                 if (u.distance > q[i].distance)
                     u = q[i];
             q.Remove(u);
+            foreach(Square square in getNeighbors(u,q))
             {
                 if (!square.canWalk)
                     continue;
@@ -43,38 +48,6 @@ public class Djikstra
         return retracePath(start,end); 
     }
 
-    public List<Square> findPath(Square start, Square end,List<Square> visitedCords)
-    {
-        List<Square> q = new List<Square>();
-
-        foreach (Square square in grid)
-        {
-            square.distance = Mathf.Infinity;
-            square.parent = null;
-            q.Add(square);
-        }
-        start.distance = 0;
-        while (q.Count > 0)
-        {
-            Square u = q[0];
-            for (int i = 1; i < q.Count; i++)
-                if (u.distance > q[i].distance)
-                    u = q[i];
-            q.Remove(u);
-            foreach (Square square in getNeighbors(u, q))
-            {
-                if (!square.canWalk)
-                    continue;
-                float newdistance = u.distance + getDistance(u, square);
-                if (newdistance <= square.distance)
-                {
-                    square.distance = newdistance;
-                    square.parent = u;
-                }
-            }
-        }
-        return retracePath(start, end);
-    }
 
     private List<Square> getNeighbors(Square nd,List<Square> lt)
     {

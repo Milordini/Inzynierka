@@ -12,8 +12,13 @@ public class Square : MonoBehaviour
     [SerializeField] public int Y { get; set; }
     [SerializeField] public bool canWalk { get; set; }
     [SerializeField] public Square parent { get; set; }
+    
+    // A*
     [SerializeField] public int G { get; set; }
     [SerializeField] public int H { get; set; }
     [SerializeField] public int F { get { return G + H; } }
 
+    // Djikstra
     [SerializeField] public float distance { get; set; }
+
+}

@@ -12,6 +12,7 @@ public class SelectMenager
     private GameObject selected1, selected2;
     private int[,] BinMap = null;
     Square[,] grid;
+    GameObject pathBoard;
     private SelectMenager() { }
 
     public static SelectMenager GetInstance()
@@ -69,24 +70,32 @@ public class SelectMenager
 
     public void makePathAStar()
     {
+        if(pathBoard!=null)
+            clearPath();
         List<Square> traced = new List<Square>();
         AStar ast = new AStar(GetGrid(height, width));
         List<Square> path = ast.findPath(selected1.GetComponent<Square>(), selected2.GetComponent<Square>(),traced);
-        GameObject pathBoard = new GameObject();
-        pathBoard.transform.position = Parent.position;
+        pathBoard = new GameObject();
+        pathBoard.transform.position = Vector3.zero;
         BoardMaker.pathScreen(path, pathBoard.transform,traced);
     }
 
     public void makePathDjikstra()
     {
+        if (pathBoard != null)
+            clearPath();
         List<Square> traced = new List<Square>();
         Djikstra dj = new Djikstra(GetGrid(height, width));
         List<Square> path = dj.findPath(selected1.GetComponent<Square>(), selected2.GetComponent<Square>(),traced);
-        GameObject pathBoard = new GameObject();
+        pathBoard = new GameObject();
         pathBoard.transform.position = Parent.position;
         BoardMaker.pathScreen(path, pathBoard.transform,traced);
     }
 
+    public void clearPath()
+    {
+        GameObject.Destroy(pathBoard);
+    }
 
     public Square[,] GetGrid(int height, int width)
     {

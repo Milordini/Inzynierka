@@ -11,7 +11,7 @@ public class Info : MonoBehaviour
     [SerializeField] public int G ;
     [SerializeField] public int H ;
     [SerializeField] public float Distance ;
-    private Square sq;
+    private Square sq = null;
 
     void Update()
     {

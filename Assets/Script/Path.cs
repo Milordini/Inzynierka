@@ -23,6 +23,11 @@ public class Path : MonoBehaviour
             SMinstance.makePathAStar();
     }
 
+    public void clearPath()
+    {
+
+    }
+
     private int togSelect(Toggle tg, int poz)
     {
         char x = tg.gameObject.name[poz - 1];

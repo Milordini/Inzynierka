@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.IO;
 using System.Security.Cryptography;
 using UnityEngine;
@@ -17,68 +18,20 @@ public class BoardMaker : MonoBehaviour
     [SerializeField] SelectMenager SLinstance;
     [SerializeField] private Menu mn;
     [SerializeField] private camSlider cS;
-    [SerializeField] StreamReader sr=null;
-    [SerializeField] String line;
+    [SerializeField] private BoxCollider confiner;
     private int i = 0;
     private int j = 0;
     void Start()
     {
         Me = transform;
-        //zPLiku();
-        //BuildMap();
+        BuildMap();
 
     }
 
-    private void Update()
-    {
-        if (sr == null)
-        {
-            sr = new StreamReader("Assets/maze512-1-9.txt");
-            line = sr.ReadLine();
-            h = int.Parse(line);
-            line = sr.ReadLine();
-            w = int.Parse(line);
-
-            st = new Vector2(0.5f, -0.5f);
-            i = j = 0;
-        }
-
-        if (line != null)
-        {
-            if (j >= w - 1)
-                j = 0;
-
-            line = sr.ReadLine();
-            char[] chars = line.ToCharArray();
-            foreach (char c in chars)
-            {
-                if (c == '.')
-                {
-                    Square sq = Instantiate(WSquare, st, transform.rotation, transform).GetComponent<Square>();
-                    sq.X = j;
-                    sq.Y = i;
-                    sq.canWalk = true;
-                    st += Vector2.right;
-                }
-                else if(c =='@')
-                {
-                    Square sq = Instantiate(BSquare, st, transform.rotation, transform).GetComponent<Square>();
-                    sq.X = j;
-                    sq.Y = i;
-                    sq.canWalk = false;
-                    st += Vector2.right;
-                }
-                j++;
-            }
-            i++;
-            st = new Vector2(0.5f, st.y - 1);
-        }
-        if (i >= h - 1)
-        {
-            SLinstance = SelectMenager.GetInstance();
-            SLinstance.setData(w, h, transform);
-        }
-    }
+    //private void Update()
+    //{
+        
+    //}
     public void BuildMap()
     {
         int[] tab = mn.mapOpt();
@@ -155,9 +108,14 @@ public class BoardMaker : MonoBehaviour
         SLinstance.setData(w, h, transform);
         SLinstance.MakeBitMap(h, w);
         doPliku(SLinstance.getBitMap());
-        cS.setConfiner(w, h);
+        setConfiner(w, h);
     }
 
+    public void setConfiner(int w, int h)
+    {
+        confiner.size = new Vector3(w, h, 0);
+        confiner.transform.position = new Vector3(w / 2f, -h / 2f, -10f);
+    }
 
     private int ChosePLate()
     {
@@ -187,46 +145,46 @@ public class BoardMaker : MonoBehaviour
         sw.Close();
     }
 
-    private void zPLiku()
-    {
-        StreamReader sr = new StreamReader("Assets/maze512-1-9.txt");
-        String line = sr.ReadLine();
-        h = int.Parse(line);
-        line = sr.ReadLine();
-        w = int.Parse(line);
-        char[] board;
-        st = new Vector2(0.5f, -0.5f);
-        int j = 0;
-        while (line != null)
-        {
-            board = line.ToCharArray();
-            foreach (char c in board)
-                Debug.Log(c);
+    //private void zPLiku()
+    //{
+    //    StreamReader sr = new StreamReader("Assets/maze512-1-9.txt");
+    //    String line = sr.ReadLine();
+    //    h = int.Parse(line);
+    //    line = sr.ReadLine();
+    //    w = int.Parse(line);
+    //    char[] board;
+    //    st = new Vector2(0.5f, -0.5f);
+    //    int j = 0;
+    //    while (line != null)
+    //    {
+    //        board = line.ToCharArray();
+    //        foreach (char c in board)
+    //            Debug.Log(c);
 
-            for (int i = 0; i < 1; i++)
-            {
-                if (board[i] == '.')
-                {
-                    Square sq = Instantiate(WSquare, st, transform.rotation, transform).GetComponent<Square>();
-                    sq.X = j;
-                    sq.Y = i;
-                    sq.canWalk = true;
-                    st += Vector2.right;
-                }
-                else
-                {
-                    Square sq = Instantiate(BSquare, st, transform.rotation, transform).GetComponent<Square>();
-                    sq.X = j;
-                    sq.Y = i;
-                    sq.canWalk = false;
-                    st += Vector2.right;
-                }
-            }
-            st = new Vector2(0.5f, st.y - 1);
-            j++;
-        }
+    //        for (int i = 0; i < 1; i++)
+    //        {
+    //            if (board[i] == '.')
+    //            {
+    //                Square sq = Instantiate(WSquare, st, transform.rotation, transform).GetComponent<Square>();
+    //                sq.X = j;
+    //                sq.Y = i;
+    //                sq.canWalk = true;
+    //                st += Vector2.right;
+    //            }
+    //            else
+    //            {
+    //                Square sq = Instantiate(BSquare, st, transform.rotation, transform).GetComponent<Square>();
+    //                sq.X = j;
+    //                sq.Y = i;
+    //                sq.canWalk = false;
+    //                st += Vector2.right;
+    //            }
+    //        }
+    //        st = new Vector2(0.5f, st.y - 1);
+    //        j++;
+    //    }
 
-    }
+    //}
 
     static public void pathScreen(List<Square> path,Transform par)
     {
@@ -271,4 +229,6 @@ public class BoardMaker : MonoBehaviour
         sq1.transform.position = new Vector3(sq1.transform.position.x, sq1.transform.position.y, -1.5f);
     }
 
+    public void setHeight(int h) { this.h = h; }
+    public void setWidth(int w) { this.w = w;}
 }

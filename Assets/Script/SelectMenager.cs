@@ -1,7 +1,4 @@
-using System.IO;
 using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class SelectMenager
@@ -68,24 +65,24 @@ public class SelectMenager
 
     }
 
-    public void makePathAStar()
-    {
-        if(pathBoard!=null)
-            clearPath();
-        List<Square> traced = new List<Square>();
-        AStar ast = new AStar(GetGrid(height, width));
-        List<Square> path = ast.findPath(selected1.GetComponent<Square>(), selected2.GetComponent<Square>(),traced);
-        pathBoard = new GameObject();
-        pathBoard.transform.position = Vector3.zero;
-        BoardMaker.pathScreen(path, pathBoard.transform,traced);
-    }
+    //public void makePathAStar()
+    //{
+    //    if(pathBoard!=null)
+    //        clearPath();
+
+    //    AStar ast = new AStar(GetGrid(height, width));
+    //    List<Square> path = ast.findPath(selected1.GetComponent<Square>(), selected2.GetComponent<Square>(),traced);
+    //    pathBoard = new GameObject();
+    //    pathBoard.transform.position = Vector3.zero;
+    //    BoardMaker.pathScreen(path, pathBoard.transform,traced);
+    //}
 
     public void makePathDjikstra()
     {
         if (pathBoard != null)
             clearPath();
         List<Square> traced = new List<Square>();
-        Djikstra dj = new Djikstra(GetGrid(height, width));
+        Djikstra dj = new Djikstra(GetGrid());
         List<Square> path = dj.findPath(selected1.GetComponent<Square>(), selected2.GetComponent<Square>(),traced);
         pathBoard = new GameObject();
         pathBoard.transform.position = Parent.position;
@@ -97,7 +94,7 @@ public class SelectMenager
         GameObject.Destroy(pathBoard);
     }
 
-    public Square[,] GetGrid(int height, int width)
+    public Square[,] GetGrid()
     {
         grid = new Square[width, height];//emolium szampon dow ³osów
         for (int i = 0; i < height; i++)

@@ -11,6 +11,8 @@ public class Path : MonoBehaviour
     [SerializeField] private ToggleGroup algorytm;
     [SerializeField] private GameObject Spoint;
     [SerializeField] private GameObject Terrain;
+    [SerializeField] AStar ast;
+    [SerializeField] Djikstra dji;
     private SelectMenager SMinstance;
     public void MakePath()
     {
@@ -20,7 +22,7 @@ public class Path : MonoBehaviour
         if(togSelect(tg,1)==0)
             SMinstance.makePathDjikstra();
         else if(togSelect(tg, 1) == 1)
-            SMinstance.makePathAStar();
+           ast.setData(SMinstance.GetGrid(), SMinstance.getStart().GetComponent<Square>(), SMinstance.getEnd().GetComponent<Square>());
     }
 
     public void clearPath()

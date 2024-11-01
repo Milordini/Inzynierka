@@ -20,8 +20,8 @@ public class Path : MonoBehaviour
 
         Toggle tg = algorytm.ActiveToggles().FirstOrDefault();
         if(togSelect(tg,1)==0)
-            SMinstance.makePathDjikstra();
-        else if(togSelect(tg, 1) == 1)
+           dji.setData(SMinstance.GetGrid(), SMinstance.getStart().GetComponent<Square>(), SMinstance.getEnd().GetComponent<Square>());
+        else if (togSelect(tg, 1) == 1)
            ast.setData(SMinstance.GetGrid(), SMinstance.getStart().GetComponent<Square>(), SMinstance.getEnd().GetComponent<Square>());
     }
 

@@ -2987,6 +2987,7 @@ GameObject:
   - component: {fileID: 1035742120}
   - component: {fileID: 1035742119}
   - component: {fileID: 1035742121}
+  - component: {fileID: 1035742122}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -3040,6 +3041,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4081f9971ce62c34a98013d25750e9e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  par: {fileID: 2085563354}
+--- !u!114 &1035742122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035742118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a54e05651c3cd094a86ca81f6d1b8e87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   par: {fileID: 2085563354}
@@ -3464,6 +3478,7 @@ MonoBehaviour:
   Spoint: {fileID: 0}
   Terrain: {fileID: 0}
   ast: {fileID: 1035742121}
+  dji: {fileID: 1035742122}
 --- !u!1 &1377145918
 GameObject:
   m_ObjectHideFlags: 0

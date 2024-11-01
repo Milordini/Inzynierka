@@ -1,14 +1,4 @@
-using NUnit;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Security.Cryptography;
-using System.Text.RegularExpressions;
-using System.Threading;
-using Unity.Mathematics;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class AStar : MonoBehaviour 
@@ -16,11 +6,9 @@ public class AStar : MonoBehaviour
     private Square[,] grid;
     private int width;
     private int height;
-    private bool working = false;
     private bool ended = false;
     Square start;
     Square end;
-    List<Square> neigbours;
     List<Square> openSet = new List<Square>();
     HashSet<Square> closedSet = new HashSet<Square>();
     [SerializeField] Transform par;
@@ -146,17 +134,17 @@ public class AStar : MonoBehaviour
         return 14 * dstX + 10 * (dstY - dstX);
     }
 
-    private List<Square> RetracePath(Square startNode, Square endNode)
-    {
-        List<Square> path = new List<Square>();
-        Square currentNode = endNode;
+    //private List<Square> RetracePath(Square startNode, Square endNode)
+    //{
+    //    List<Square> path = new List<Square>();
+    //    Square currentNode = endNode;
 
-        while (currentNode != startNode)
-        {
-            path.Add(currentNode);
-            currentNode = currentNode.parent;
-        }
-        return path;
-    }
+    //    while (currentNode != startNode)
+    //    {
+    //        path.Add(currentNode);
+    //        currentNode = currentNode.parent;
+    //    }
+    //    return path;
+    //}
 }
 

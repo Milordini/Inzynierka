@@ -77,17 +77,17 @@ public class SelectMenager
     //    BoardMaker.pathScreen(path, pathBoard.transform,traced);
     //}
 
-    public void makePathDjikstra()
-    {
-        if (pathBoard != null)
-            clearPath();
-        List<Square> traced = new List<Square>();
-        Djikstra dj = new Djikstra(GetGrid());
-        List<Square> path = dj.findPath(selected1.GetComponent<Square>(), selected2.GetComponent<Square>(),traced);
-        pathBoard = new GameObject();
-        pathBoard.transform.position = Parent.position;
-        BoardMaker.pathScreen(path, pathBoard.transform,traced);
-    }
+    //public void makePathDjikstra()
+    //{
+    //    if (pathBoard != null)
+    //        clearPath();
+    //    List<Square> traced = new List<Square>();
+    //    Djikstra dj = new Djikstra(GetGrid());
+    //    List<Square> path = dj.findPath(selected1.GetComponent<Square>(), selected2.GetComponent<Square>(),traced);
+    //    pathBoard = new GameObject();
+    //    pathBoard.transform.position = Parent.position;
+    //    BoardMaker.pathScreen(path, pathBoard.transform,traced);
+    //}
 
     public void clearPath()
     {

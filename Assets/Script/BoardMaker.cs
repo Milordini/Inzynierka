@@ -20,6 +20,7 @@ public class BoardMaker : MonoBehaviour
     [SerializeField] private camSlider cS;
     [SerializeField] private BoxCollider confiner;
     [SerializeField] private GameObject pathParent;
+    int i, j;
 
     void Start()
     {
@@ -28,19 +29,75 @@ public class BoardMaker : MonoBehaviour
 
     }
 
-    //private void Update()
-    //{
-        
-    //}
+    private void Update()
+    {
+        if (tryb == 0)
+        {
+            Square sq = Instantiate(WSquare, st, transform.rotation, transform).GetComponent<Square>();
+            sq.X = j++;
+            sq.Y = i;
+            sq.canWalk = true;
+            st += Vector2.right;
+
+            if (j == w)
+            {
+                st = new Vector2(0.5f, st.y - 1);
+                j = 0;
+                i++;
+            }
+
+        }
+        else if (tryb == 1)
+        {
+            Square sq = Instantiate(BSquare, st, transform.rotation, transform).GetComponent<Square>();
+            sq.X = j++;
+            sq.Y = i;
+            sq.canWalk = true;
+            st += Vector2.right;
+
+            if (j == w)
+            {
+                st = new Vector2(0.5f, st.y - 1);
+                j = 0;
+                i++;
+            }
+        }
+        else if (tryb == 2)
+        {
+
+
+            if (ChosePLate() % 2 == 0 || ChosePLate() % 3 == 0 || ChosePLate() % 7 == 0)
+            {
+                Square sq = Instantiate(WSquare, st, transform.rotation, transform).GetComponent<Square>();
+                sq.X = j++;
+                sq.Y = i;
+                sq.canWalk = true;
+                st += Vector2.right;
+            }
+            else
+            {
+                Square sq = Instantiate(BSquare, st, transform.rotation, transform).GetComponent<Square>();
+                sq.X = j++;
+                sq.Y = i;
+                sq.canWalk = false;
+                st += Vector2.right;
+            }
+
+            if (j == w)
+            {
+                st = new Vector2(0.5f, st.y - 1);
+                j = 0;
+                i++;
+            }
+
+        }
+    }
     public void BuildMap()
     {
         int[] tab = mn.mapOpt();
         w = tab[0];
         h = tab[1];
         tryb = tab[2];
-        
-        SLinstance = SelectMenager.GetInstance();
-        SLinstance.clearPath(pathParent);
 
         if (transform.childCount != 0)
         {
@@ -48,68 +105,12 @@ public class BoardMaker : MonoBehaviour
             for (int i = transform.childCount - 1; i >= 0; i--)
                 Destroy(transform.GetChild(i).gameObject);
         }
-
-
-        if (tryb == 0)
-        {
-            for (int i = 0; i < h; i++)
-            {
-                for (int j = 0; j < w; j++)
-                {
-                    Square sq = Instantiate(WSquare, st, transform.rotation, transform).GetComponent<Square>();
-                    sq.X = j;
-                    sq.Y = i;
-                    sq.canWalk = true;
-                    st += Vector2.right;
-                }
-                st = new Vector2(0.5f, st.y - 1);
-            }
-        }
-        else if (tryb == 1)
-        {
-            for (int i = 0; i < h; i++)
-            {
-                for (int j = 0; j < w; j++)
-                {
-                    Square sq = Instantiate(BSquare, st, transform.rotation, transform).GetComponent<Square>();
-                    sq.X = j;
-                    sq.Y = i;
-                    sq.canWalk = false;
-                    st += Vector2.right;
-                }
-                st = new Vector2(0.5f, st.y - 1);
-            }
-        }
-        else if (tryb == 2)
-        {
-
-            for (int i = 0; i < h; i++)
-            {
-                for (int j = 0; j < w; j++)
-                {
-                    if (ChosePLate() % 2 == 0 || ChosePLate() % 3 == 0 || ChosePLate() % 7 == 0)
-                    {
-                        Square sq = Instantiate(WSquare, st, transform.rotation, transform).GetComponent<Square>();
-                        sq.X = j;
-                        sq.Y = i;
-                        sq.canWalk = true;
-                        st += Vector2.right;
-                    }
-                    else
-                    {
-                        Square sq = Instantiate(BSquare, st, transform.rotation, transform).GetComponent<Square>();
-                        sq.X = j;
-                        sq.Y = i;
-                        sq.canWalk = false;
-                        st += Vector2.right;
-                    }
-                }
-                st = new Vector2(0.5f, st.y - 1);
-            }
-        }   
+        i = j = 0;
+        SLinstance = SelectMenager.GetInstance();
+        SLinstance.clearPath(pathParent);
         SLinstance.setData(w, h, transform);
-        SLinstance.MakeBitMap(h, w);
-        doPliku(SLinstance.getBitMap());
+        //SLinstance.MakeBitMap(h, w);
+        //doPliku(SLinstance.getBitMap());
         setConfiner(w, h);
     }
 
@@ -232,5 +233,5 @@ public class BoardMaker : MonoBehaviour
     //}
 
     public void setHeight(int h) { this.h = h; }
-    public void setWidth(int w) { this.w = w;}
+    public void setWidth(int w) { this.w = w; }
 }

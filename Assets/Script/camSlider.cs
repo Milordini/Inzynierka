@@ -36,8 +36,17 @@ public class camSlider : MonoBehaviour
         {
            _cam.transform.position = origin - difrence;
         }
-    }
 
+        if(Input.GetAxis("Mouse ScrollWheel") != 0)
+        {
+            _cam.m_Lens.OrthographicSize += -Input.GetAxis("Mouse ScrollWheel")*4;
+            if (_cam.m_Lens.OrthographicSize > 30)
+                _cam.m_Lens.OrthographicSize = 30;
+            if (_cam.m_Lens.OrthographicSize < 10)
+                _cam.m_Lens.OrthographicSize = 10;
+        }
+
+    }
 
     
 

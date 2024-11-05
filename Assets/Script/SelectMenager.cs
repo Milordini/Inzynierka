@@ -9,7 +9,6 @@ public class SelectMenager
     private GameObject selected1, selected2;
     private int[,] BinMap = null;
     Square[,] grid;
-    GameObject pathBoard;
     private SelectMenager() { }
 
     public static SelectMenager GetInstance()
@@ -89,9 +88,13 @@ public class SelectMenager
     //    BoardMaker.pathScreen(path, pathBoard.transform,traced);
     //}
 
-    public void clearPath()
+    public void clearPath(GameObject pathBoard)
     {
-        GameObject.Destroy(pathBoard);
+        if (pathBoard.transform.childCount != 0)
+        {
+            for (int i = 0; i < pathBoard.transform.childCount; i++)
+                GameObject.Destroy(pathBoard.transform.GetChild(i).gameObject);
+        }
     }
 
     public Square[,] GetGrid()

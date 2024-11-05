@@ -19,8 +19,8 @@ public class BoardMaker : MonoBehaviour
     [SerializeField] private Menu mn;
     [SerializeField] private camSlider cS;
     [SerializeField] private BoxCollider confiner;
-    private int i = 0;
-    private int j = 0;
+    [SerializeField] private GameObject pathParent;
+
     void Start()
     {
         Me = transform;
@@ -38,6 +38,9 @@ public class BoardMaker : MonoBehaviour
         w = tab[0];
         h = tab[1];
         tryb = tab[2];
+        
+        SLinstance = SelectMenager.GetInstance();
+        SLinstance.clearPath(pathParent);
 
         if (transform.childCount != 0)
         {
@@ -103,8 +106,7 @@ public class BoardMaker : MonoBehaviour
                 }
                 st = new Vector2(0.5f, st.y - 1);
             }
-        }
-        SLinstance = SelectMenager.GetInstance();
+        }   
         SLinstance.setData(w, h, transform);
         SLinstance.MakeBitMap(h, w);
         doPliku(SLinstance.getBitMap());
@@ -186,48 +188,48 @@ public class BoardMaker : MonoBehaviour
 
     //}
 
-    static public void pathScreen(List<Square> path,Transform par)
-    {
-        GameObject pathPref = Resources.Load<GameObject>("Pref/Square (2)");
-        if (pathPref == null)
-            Debug.Log("kurwa");
-        foreach (Square square in path)
-        {
-            Debug.Log("X = " + square.X);
-            Debug.Log("Y = " + square.Y);
-            GameObject sq = Instantiate(pathPref, square.transform.position, square.transform.rotation, par);
-            sq.transform.position = new Vector3(sq.transform.position.x, sq.transform.position.y, -1f);
-            if(square == path[0])
-                sq.GetComponent<SpriteRenderer>().color = Color.blue;
-        }
-    }
+    //static public void pathScreen(List<Square> path,Transform par)
+    //{
+    //    GameObject pathPref = Resources.Load<GameObject>("Pref/Square (2)");
+    //    if (pathPref == null)
+    //        Debug.Log("kurwa");
+    //    foreach (Square square in path)
+    //    {
+    //        Debug.Log("X = " + square.X);
+    //        Debug.Log("Y = " + square.Y);
+    //        GameObject sq = Instantiate(pathPref, square.transform.position, square.transform.rotation, par);
+    //        sq.transform.position = new Vector3(sq.transform.position.x, sq.transform.position.y, -1f);
+    //        if(square == path[0])
+    //            sq.GetComponent<SpriteRenderer>().color = Color.blue;
+    //    }
+    //}
 
-    static public void pathScreen(List<Square> path, Transform par,List<Square> traced)
-    {
-        GameObject pathPref = Resources.Load<GameObject>("Pref/Square (2)");
-        GameObject tracPref = Resources.Load<GameObject>("Pref/Square (3)");
+    //static public void pathScreen(List<Square> path, Transform par,List<Square> traced)
+    //{
+    //    GameObject pathPref = Resources.Load<GameObject>("Pref/Square (2)");
+    //    GameObject tracPref = Resources.Load<GameObject>("Pref/Square (3)");
 
-        if (pathPref == null)
-            Debug.Log("kurwa");
-        foreach (Square square in path)
-        {
-            Debug.Log("X = " + square.X);
-            Debug.Log("Y = " + square.Y);
-            GameObject sq = Instantiate(pathPref, square.transform.position, square.transform.rotation, par);
-            sq.transform.position = new Vector3(sq.transform.position.x, sq.transform.position.y, -1f);
-        }
+    //    if (pathPref == null)
+    //        Debug.Log("kurwa");
+    //    foreach (Square square in path)
+    //    {
+    //        Debug.Log("X = " + square.X);
+    //        Debug.Log("Y = " + square.Y);
+    //        GameObject sq = Instantiate(pathPref, square.transform.position, square.transform.rotation, par);
+    //        sq.transform.position = new Vector3(sq.transform.position.x, sq.transform.position.y, -1f);
+    //    }
 
-        foreach (Square square in traced)
-        {
-            GameObject sq = Instantiate(tracPref, square.transform.position, square.transform.rotation, par);
-            sq.transform.position = new Vector3(sq.transform.position.x, sq.transform.position.y, -0.5f);
-        }
-        SelectMenager SLinstance = SelectMenager.GetInstance();
-        GameObject sq1 = Instantiate(Resources.Load<GameObject>("Pref/Start"), SLinstance.getStart().transform.position, SLinstance.getStart().transform.rotation,par);
-        sq1.transform.position = new Vector3(sq1.transform.position.x, sq1.transform.position.y, -1.5f);
-        sq1 = Instantiate(Resources.Load<GameObject>("Pref/End"), SLinstance.getEnd().transform.position, SLinstance.getEnd().transform.rotation, par);
-        sq1.transform.position = new Vector3(sq1.transform.position.x, sq1.transform.position.y, -1.5f);
-    }
+    //    foreach (Square square in traced)
+    //    {
+    //        GameObject sq = Instantiate(tracPref, square.transform.position, square.transform.rotation, par);
+    //        sq.transform.position = new Vector3(sq.transform.position.x, sq.transform.position.y, -0.5f);
+    //    }
+    //    SelectMenager SLinstance = SelectMenager.GetInstance();
+    //    GameObject sq1 = Instantiate(Resources.Load<GameObject>("Pref/Start"), SLinstance.getStart().transform.position, SLinstance.getStart().transform.rotation,par);
+    //    sq1.transform.position = new Vector3(sq1.transform.position.x, sq1.transform.position.y, -1.5f);
+    //    sq1 = Instantiate(Resources.Load<GameObject>("Pref/End"), SLinstance.getEnd().transform.position, SLinstance.getEnd().transform.rotation, par);
+    //    sq1.transform.position = new Vector3(sq1.transform.position.x, sq1.transform.position.y, -1.5f);
+    //}
 
     public void setHeight(int h) { this.h = h; }
     public void setWidth(int w) { this.w = w;}

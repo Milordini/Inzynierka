@@ -79,13 +79,29 @@ public class AStar : MonoBehaviour
         grid = square;
         width = square.GetLength(0);
         height = square.GetLength(1);
+        resetDat();
         this.start = start;
         this.end = end;
-        openSet.Clear();
         openSet.Add(start);
         start.H = 0;
         start.G = 0;
         ended = false;
+        
+    }
+
+    private void resetDat()
+    {
+        foreach (Square sq in grid)
+            sq.resetSquare();
+        openSet.Clear();
+        closedSet.Clear();
+        if (par.childCount != 0)
+        {
+            for (int i = 0; i < par.childCount; i++)
+                Destroy(par.GetChild(i).gameObject);
+        }
+        start = null;
+        end = null;
     }
 
     private List<Square> getNeighbors(Square nd)

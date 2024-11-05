@@ -21,4 +21,11 @@ public class Square : MonoBehaviour
     // Djikstra
     [SerializeField] public float distance { get; set; }
 
+    public void resetSquare()
+    {
+        G = 0;
+        H = 0;
+        distance = 0;
+    }
+
 }

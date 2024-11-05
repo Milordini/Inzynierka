@@ -13,7 +13,7 @@ public class Djikstra : MonoBehaviour
     Square start, end;
     [SerializeField] Transform par;
     Square tem;
-    bool ended= false;
+    bool ended= true;
     private void Update()
     {
         if(ended)
@@ -21,13 +21,20 @@ public class Djikstra : MonoBehaviour
 
         if (q.Count > 0)
         {
+
+
             Square u = q[0];
             for (int i = 1; i < q.Count; i++)
                 if (u.distance > q[i].distance)
                     u = q[i];
             q.Remove(u);
+            if (u == end)
+            { 
+                q.Clear();
 
-            foreach (Square square in getNeighbors(u, q))
+            }
+
+            foreach (Square square in getNeighborsx4(u, q))
             {
                 if (!square.canWalk)
                 { 
@@ -52,8 +59,8 @@ public class Djikstra : MonoBehaviour
                 tem = tem.parent;
             }else
             {
-                Instantiate(Resources.Load<GameObject>("Pref/start"), start.transform.position, transform.rotation, par);
-                Instantiate(Resources.Load<GameObject>("Pref/end"), end.transform.position, transform.rotation, par);
+                Instantiate(Resources.Load<GameObject>("Pref/Start"), start.transform.position, start.transform.rotation, par);
+                Instantiate(Resources.Load<GameObject>("Pref/End"), end.transform.position, end.transform.rotation, par);
                 ended = true;
             }
 
@@ -112,6 +119,11 @@ public class Djikstra : MonoBehaviour
         start.distance = 0;
         tem = end;
         ended =false;
+        if (par.childCount != 0)
+        {
+            for (int i = 0; i < par.childCount; i++)
+                Destroy(par.GetChild(i).gameObject);
+        }
     }
 
     private List<Square> getNeighbors(Square nd,List<Square> lt)

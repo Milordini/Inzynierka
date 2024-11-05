@@ -9,8 +9,6 @@ public class Path : MonoBehaviour
 {
     [SerializeField] Button but;
     [SerializeField] private ToggleGroup algorytm;
-    [SerializeField] private GameObject Spoint;
-    [SerializeField] private GameObject Terrain;
     [SerializeField] AStar ast;
     [SerializeField] Djikstra dji;
     private SelectMenager SMinstance;
@@ -19,10 +17,10 @@ public class Path : MonoBehaviour
         SMinstance = SelectMenager.GetInstance();
 
         Toggle tg = algorytm.ActiveToggles().FirstOrDefault();
-        if(togSelect(tg,1)==0)
-           dji.setData(SMinstance.GetGrid(), SMinstance.getStart().GetComponent<Square>(), SMinstance.getEnd().GetComponent<Square>());
+        if (togSelect(tg, 1) == 0)
+            dji.setData(SMinstance.GetGrid(), SMinstance.getStart().GetComponent<Square>(), SMinstance.getEnd().GetComponent<Square>());
         else if (togSelect(tg, 1) == 1)
-           ast.setData(SMinstance.GetGrid(), SMinstance.getStart().GetComponent<Square>(), SMinstance.getEnd().GetComponent<Square>());
+            ast.setData(SMinstance.GetGrid(), SMinstance.getStart().GetComponent<Square>(), SMinstance.getEnd().GetComponent<Square>());
     }
 
     public void clearPath()

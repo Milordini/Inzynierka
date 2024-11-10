@@ -12,8 +12,9 @@ public class fileLoader : MonoBehaviour
     [SerializeField] bool reading;
     [SerializeField] private GameObject WSquare;
     [SerializeField] private GameObject BSquare;
-    Vector2 st;int i; int j;
-    int h; int w;
+    Vector2 st;
+    [SerializeField] int i, j;
+    [SerializeField] int h, w;
     SelectMenager SLinstance;
     void Start()
     {
@@ -22,56 +23,109 @@ public class fileLoader : MonoBehaviour
 
     void Update()
     {
-        if (reading)
+        if (!reading)
+            return;
+
+
+        if (line != null)
         {
-            if (sr == null)
+            if (j >= w - 1)
+                j = 0;
+
+            line = sr.ReadLine();
+            char[] chars = line.ToCharArray();
+            foreach (char c in chars)
             {
-                sr = new StreamReader("Assets/maze512-1-9.txt");
-                line = sr.ReadLine();
-                bM.setHeight(int.Parse(line));
-                line = sr.ReadLine();
-                bM.setHeight(int.Parse(line));
-
-                st = new Vector2(0.5f, -0.5f);
-                i = j = 0;
-            }
-
-            if (line != null)
-            {
-                if (j >= w - 1)
-                    j = 0;
-
-                line = sr.ReadLine();
-                char[] chars = line.ToCharArray();
-                foreach (char c in chars)
+                if (c == '.')
                 {
-                    if (c == '.')
-                    {
-                        Square sq = Instantiate(WSquare, st, transform.rotation, transform).GetComponent<Square>();
-                        sq.X = j;
-                        sq.Y = i;
-                        sq.canWalk = true;
-                        st += Vector2.right;
-                    }
-                    else if (c == '@')
-                    {
-                        Square sq = Instantiate(BSquare, st, transform.rotation, transform).GetComponent<Square>();
-                        sq.X = j;
-                        sq.Y = i;
-                        sq.canWalk = false;
-                        st += Vector2.right;
-                    }
-                    j++;
+                    Square sq = Instantiate(WSquare, st, transform.rotation, transform).GetComponent<Square>();
+                    sq.X = j;
+                    sq.Y = i;
+                    sq.canWalk = true;
+                    st += Vector2.right;
                 }
-                i++;
-                st = new Vector2(0.5f, st.y - 1);
+                else if (c == '@')
+                {
+                    Square sq = Instantiate(BSquare, st, transform.rotation, transform).GetComponent<Square>();
+                    sq.X = j;
+                    sq.Y = i;
+                    sq.canWalk = false;
+                    st += Vector2.right;
+                }
+                j++;
             }
-            if (i >= h - 1)
-            {
-                SLinstance = SelectMenager.GetInstance();
-                SLinstance.setData(w, h, transform);
-                //ssetConfiner(w, h);
-            }
+            i++;
+            st = new Vector2(0.5f, st.y - 1);
         }
+        
+
     }
+
+    public void loadMap(Save sv)
+    {
+        sr = new StreamReader(sv.path);
+        h = bM.setHeight(sv.Height);
+        w = bM.setWidth(sv.Width);
+        sr.DiscardBufferedData();
+        SLinstance = SelectMenager.GetInstance();
+        SLinstance.setData(w, h, this.transform);
+        bM.setConfiner(w, h);
+        st = new Vector2(0.5f, -0.5f);
+        i = j = 0;
+        reading = true;
+        line = sr.ReadLine();
+        line = sr.ReadLine();
+        line = sr.ReadLine();
+        line = sr.ReadLine();
+    }
+
+    public void loadMapInstant(Save sv)
+    {
+        h = bM.setHeight(sv.Height);
+        w = bM.setWidth(sv.Width);
+
+        SLinstance = SelectMenager.GetInstance();
+        SLinstance.setData(w, h, this.transform);
+        bM.setConfiner(w, h); 
+        st = new Vector2(0.5f, -0.5f);
+        reading = false;
+        sr = new StreamReader(sv.path);
+
+        line = sr.ReadLine();
+        line = sr.ReadLine();
+        for(int i = 0; i < w; i++)
+        {
+            line = sr.ReadLine();
+            char[] chars = line.ToCharArray();
+            j = 0;
+            foreach (char c in chars)
+            {
+                if (c == '.')
+                {
+                    Square sq = Instantiate(WSquare, st, transform.rotation, transform).GetComponent<Square>();
+                    sq.X = j;
+                    sq.Y = i;
+                    sq.canWalk = true;
+                    st += Vector2.right;
+                }
+                else if (c == '@')
+                {
+                    Square sq = Instantiate(BSquare, st, transform.rotation, transform).GetComponent<Square>();
+                    sq.X = j;
+                    sq.Y = i;
+                    sq.canWalk = false;
+                    st += Vector2.right;
+                }
+                j++;
+            }
+            st = new Vector2(0.5f, st.y - 1);
+        }
+        
+    }
+
+    public void saveMap()
+    {
+
+    }
+
 }

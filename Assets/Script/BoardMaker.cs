@@ -20,17 +20,21 @@ public class BoardMaker : MonoBehaviour
     [SerializeField] private camSlider cS;
     [SerializeField] private BoxCollider confiner;
     [SerializeField] private GameObject pathParent;
+    [SerializeField] private bool isMaking = false;
     int i, j;
 
     void Start()
     {
         Me = transform;
-        BuildMap();
+        //BuildMap();
 
     }
 
     private void Update()
     {
+        if(!isMaking)
+            return;
+
         if (tryb == 0)
         {
             Square sq = Instantiate(WSquare, st, transform.rotation, transform).GetComponent<Square>();
@@ -98,7 +102,7 @@ public class BoardMaker : MonoBehaviour
         w = tab[0];
         h = tab[1];
         tryb = tab[2];
-
+        isMaking = true;
         if (transform.childCount != 0)
         {
             st = new Vector2(0.5f, -0.5f);
@@ -130,6 +134,12 @@ public class BoardMaker : MonoBehaviour
             return randomvalue;
         }
 
+    }
+
+    public void clearPath()
+    {
+        SLinstance = SelectMenager.GetInstance();
+        SLinstance.clearPath(pathParent);
     }
 
     private void doPliku(int[,] tab)
@@ -232,6 +242,6 @@ public class BoardMaker : MonoBehaviour
     //    sq1.transform.position = new Vector3(sq1.transform.position.x, sq1.transform.position.y, -1.5f);
     //}
 
-    public void setHeight(int h) { this.h = h; }
-    public void setWidth(int w) { this.w = w; }
+    public int setHeight(int h) { return this.h = h; }
+    public int setWidth(int w) { return this.w = w; }
 }

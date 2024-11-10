@@ -99,7 +99,7 @@ public class SelectMenager
 
     public Square[,] GetGrid()
     {
-        grid = new Square[width, height];//emolium szampon dow ³osów
+        grid = new Square[width, height];
         for (int i = 0; i < height; i++)
         {
             for (int j = 0; j < width; j++)

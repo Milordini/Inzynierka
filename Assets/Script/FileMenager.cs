@@ -11,6 +11,13 @@ public class FileMenager : MonoBehaviour
     [SerializeField] List<Save> saves = new List<Save>();
     [SerializeField] Transform content;
     [SerializeField] fileLoader fL;
+    [SerializeField] GameObject gm;
+    [SerializeField] GameObject gm1;
+    private void Start()
+    {
+        LoadFiles();
+    }
+
     public void LoadFiles()
     {
         var paths = Directory.GetFiles("Assets/Maps","*.map");
@@ -38,10 +45,12 @@ public class FileMenager : MonoBehaviour
 
     public void selectMap(GameObject gm)
     {
+        fL.stop();
+       SelectMenager.GetInstance().deleteChildren(gm1);
         for(int x = 0;x<content.childCount;x++)
         {
             if(content.GetChild(x).gameObject == gm)
-                fL.loadMap(saves[x-1]);
+                fL.loadMapInstant(saves[x]);
         }
 
     }

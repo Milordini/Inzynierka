@@ -122,6 +122,10 @@ public class fileLoader : MonoBehaviour
         }
         
     }
+    public void stop()
+    {
+        reading = false;
+    }
 
     public void saveMap()
     {

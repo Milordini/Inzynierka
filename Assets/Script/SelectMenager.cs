@@ -88,12 +88,12 @@ public class SelectMenager
     //    BoardMaker.pathScreen(path, pathBoard.transform,traced);
     //}
 
-    public void clearPath(GameObject pathBoard)
+    public void deleteChildren(GameObject parent)
     {
-        if (pathBoard.transform.childCount != 0)
+        if (parent.transform.childCount != 0)
         {
-            for (int i = 0; i < pathBoard.transform.childCount; i++)
-                GameObject.Destroy(pathBoard.transform.GetChild(i).gameObject);
+            for (int i = 0; i < parent.transform.childCount; i++)
+                GameObject.Destroy(parent.transform.GetChild(i).gameObject);
         }
     }
 

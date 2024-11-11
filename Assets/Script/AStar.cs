@@ -97,7 +97,7 @@ public class AStar : MonoBehaviour
         closedSet.Clear();
         if (par.childCount != 0)
         {
-            for (int i = 0; i < par.childCount; i++)
+            for (int i = par.childCount -1  ; i >= 0; i--)
                 Destroy(par.GetChild(i).gameObject);
         }
         start = null;

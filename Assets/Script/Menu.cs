@@ -8,16 +8,14 @@ using UnityEngine.UI;
 
 public class Menu : MonoBehaviour
 {
-    [SerializeField] GameObject obj;
-    [SerializeField] private GameObject Obstacle;
     [SerializeField] private ToggleGroup mapT;
     [SerializeField] private ToggleGroup pathAl;
     [SerializeField] private TMP_InputField wid;
     [SerializeField] private TMP_InputField hei;
-
+    [SerializeField] private GameObject scrollWiew;
     private void Start()
     {
-        obj = this.gameObject;
+
     }
 
     public int[] mapOpt()
@@ -29,18 +27,6 @@ public class Menu : MonoBehaviour
         map[2] = togSelect(tg, 3);
         return map;
     }
-    //private int toint(int[] st)
-    //{
-    //    int l = st.Length;
-    //    int sum = 0;
-    //    int pow = 0;
-    //    for (int i = l - 1; i >= 0; i--)
-    //    {
-    //        sum += st[i] * (int)MathF.Pow(10, pow);
-    //        pow++;
-    //    }
-    //    return sum;
-    //}
 
     private int togSelect(Toggle tg, int poz)
     {
@@ -54,4 +40,17 @@ public class Menu : MonoBehaviour
         }
         return poz;
     }
+
+    public void updateFields(int w,int h)
+    {
+        wid.text = w.ToString();
+        hei.text = h.ToString();
+    }
+
+    public void FilesWindow()
+    {
+        scrollWiew.SetActive(!scrollWiew.activeInHierarchy);
+    }
+
+
 }

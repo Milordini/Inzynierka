@@ -32,7 +32,7 @@ public class BoardMaker : MonoBehaviour
 
     private void Update()
     {
-        if(!isMaking)
+        if (!isMaking)
             return;
 
         if (tryb == 0)
@@ -96,28 +96,110 @@ public class BoardMaker : MonoBehaviour
 
         }
     }
-    public void BuildMap()
+
+
+
+    public void build()
     {
         int[] tab = mn.mapOpt();
         w = tab[0];
         h = tab[1];
         tryb = tab[2];
+        st = new Vector2(0.5f, -0.5f);
+        if ((w * h) > (200 * 200))
+            BuildMap();
+        else
+            BuildMapInstant(); 
+    }
+
+    private void BuildMap()
+    {
+        
         isMaking = true;
-        if (transform.childCount != 0)
-        {
-            st = new Vector2(0.5f, -0.5f);
-            for (int i = transform.childCount - 1; i >= 0; i--)
-                Destroy(transform.GetChild(i).gameObject);
-        }
+
+        st = new Vector2(0.5f, -0.5f);
         i = j = 0;
+
         SLinstance = SelectMenager.GetInstance();
-        SLinstance.clearPath(pathParent);
+        SLinstance.deleteChildren(pathParent);
+        SLinstance.deleteChildren(this.gameObject);
         SLinstance.setData(w, h, transform);
-        //SLinstance.MakeBitMap(h, w);
-        //doPliku(SLinstance.getBitMap());
         setConfiner(w, h);
     }
 
+
+    private void BuildMapInstant()
+    {
+        isMaking = false;
+
+        i = j = 0;
+
+        SLinstance = SelectMenager.GetInstance();
+        SLinstance.deleteChildren(pathParent);
+        SLinstance.deleteChildren(this.gameObject);
+        SLinstance.setData(w, h, transform);
+        setConfiner(w, h);
+
+
+        if (tryb == 0)
+        {
+            for (int i = 0; i < h; i++)
+            {
+                for (int j = 0; j < w; j++)
+                {
+                    Square sq = Instantiate(WSquare, st, transform.rotation, transform).GetComponent<Square>();
+                    sq.X = j;
+                    sq.Y = i;
+                    sq.canWalk = true;
+                    st += Vector2.right;
+                }
+                st = new Vector2(0.5f, st.y - 1);
+            }
+        }
+        else if (tryb == 1)
+        {
+            for (int i = 0; i < h; i++)
+            {
+                for (int j = 0; j < w; j++)
+                {
+                    Square sq = Instantiate(BSquare, st, transform.rotation, transform).GetComponent<Square>();
+                    sq.X = j;
+                    sq.Y = i;
+                    sq.canWalk = false;
+                    st += Vector2.right;
+                }
+                st = new Vector2(0.5f, st.y - 1);
+            }
+        }
+        else if (tryb == 2)
+        {
+
+            for (int i = 0; i < h; i++)
+            {
+                for (int j = 0; j < w; j++)
+                {
+                    if (ChosePLate() % 2 == 0 || ChosePLate() % 3 == 0 || ChosePLate() % 7 == 0)
+                    {
+                        Square sq = Instantiate(WSquare, st, transform.rotation, transform).GetComponent<Square>();
+                        sq.X = j;
+                        sq.Y = i;
+                        sq.canWalk = true;
+                        st += Vector2.right;
+                    }
+                    else
+                    {
+                        Square sq = Instantiate(BSquare, st, transform.rotation, transform).GetComponent<Square>();
+                        sq.X = j;
+                        sq.Y = i;
+                        sq.canWalk = false;
+                        st += Vector2.right;
+                    }
+                }
+                st = new Vector2(0.5f, st.y - 1);
+            }
+        }
+
+    }
     public void setConfiner(int w, int h)
     {
         confiner.size = new Vector3(w, h, 0);
@@ -139,7 +221,7 @@ public class BoardMaker : MonoBehaviour
     public void clearPath()
     {
         SLinstance = SelectMenager.GetInstance();
-        SLinstance.clearPath(pathParent);
+        SLinstance.deleteChildren(pathParent);
     }
 
     private void doPliku(int[,] tab)

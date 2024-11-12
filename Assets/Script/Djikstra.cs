@@ -5,7 +5,7 @@ using UnityEngine;
 using static UnityEditor.Progress;
 
 public class Djikstra : MonoBehaviour
-{ 
+{
     Square[,] grid;
     List<Square> q = new List<Square>();
     int width;
@@ -13,11 +13,12 @@ public class Djikstra : MonoBehaviour
     Square start, end;
     [SerializeField] Transform par;
     Square tem;
-    bool ended= true;
+    bool ended = true;
+    int tryb;
     private void Update()
     {
-        if(ended)
-            return; 
+        if (ended)
+            return;
 
         if (q.Count > 0)
         {
@@ -29,35 +30,56 @@ public class Djikstra : MonoBehaviour
                     u = q[i];
             q.Remove(u);
             if (u == end)
-            { 
+            {
                 q.Clear();
 
             }
-
-            foreach (Square square in getNeighborsx4(u, q))
+            if (tryb == 4)
             {
-                if (!square.canWalk)
-                { 
-                    q.Remove(square);
-                    continue; 
-                }
-                float newdistance = u.distance + getDistance(u, square);
-                Instantiate(Resources.Load<GameObject>("Pref/Square (3)"), u.transform.position, u.transform.rotation, par);
-                if (newdistance <= square.distance)
+                foreach (Square square in getNeighborsx4(u, q))
                 {
-                    square.distance = newdistance;
-                    square.parent = u;
+                    if (!square.canWalk)
+                    {
+                        q.Remove(square);
+                        continue;
+                    }
+                    float newdistance = u.distance + getDistance(u, square);
+                    Instantiate(Resources.Load<GameObject>("Pref/Square (3)"), u.transform.position, u.transform.rotation, par);
+                    if (newdistance <= square.distance)
+                    {
+                        square.distance = newdistance;
+                        square.parent = u;
+                    }
+                }
+            }
+            else if (tryb == 8)
+            {
+                foreach (Square square in getNeighbors(u, q))
+                {
+                    if (!square.canWalk)
+                    {
+                        q.Remove(square);
+                        continue;
+                    }
+                    float newdistance = u.distance + getDistance(u, square);
+                    Instantiate(Resources.Load<GameObject>("Pref/Square (3)"), u.transform.position, u.transform.rotation, par);
+                    if (newdistance <= square.distance)
+                    {
+                        square.distance = newdistance;
+                        square.parent = u;
+                    }
                 }
             }
         }
-        if(q.Count == 0)
+        if (q.Count == 0)
         {
-            
+
             if (tem != start)
             {
                 Instantiate(Resources.Load<GameObject>("Pref/Square (2)"), tem.transform.position, tem.transform.rotation, par);
                 tem = tem.parent;
-            }else
+            }
+            else
             {
                 Instantiate(Resources.Load<GameObject>("Pref/Start"), start.transform.position, start.transform.rotation, par);
                 Instantiate(Resources.Load<GameObject>("Pref/End"), end.transform.position, end.transform.rotation, par);
@@ -103,7 +125,7 @@ public class Djikstra : MonoBehaviour
     //    return retracePath(start, end);
     //}
 
-    public void setData(Square[,] _grid, Square start, Square end)
+    public void setData(Square[,] _grid, Square start, Square end, int tryb)
     {
         grid = _grid;
         width = _grid.GetLength(0);
@@ -118,7 +140,8 @@ public class Djikstra : MonoBehaviour
         this.end = end;
         start.distance = 0;
         tem = end;
-        ended =false;
+        ended = false;
+        this.tryb = tryb;
         if (par.childCount != 0)
         {
             for (int i = 0; i < par.childCount; i++)
@@ -126,7 +149,7 @@ public class Djikstra : MonoBehaviour
         }
     }
 
-    private List<Square> getNeighbors(Square nd,List<Square> lt)
+    private List<Square> getNeighbors(Square nd, List<Square> lt)
     {
         List<Square> neighbors = new List<Square>();
         for (int x = -1; x <= 1; x++)
@@ -138,7 +161,7 @@ public class Djikstra : MonoBehaviour
                 int newX = nd.X + x;
                 int newY = nd.Y + y;
 
-                if (newX >= 0 && newX < width && newY >= 0 && newY < height && lt.Contains(grid[newX,newY]))
+                if (newX >= 0 && newX < width && newY >= 0 && newY < height && lt.Contains(grid[newX, newY]))
                     neighbors.Add(grid[newX, newY]);
             }
 

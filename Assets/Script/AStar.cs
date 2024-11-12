@@ -13,6 +13,7 @@ public class AStar : MonoBehaviour
     HashSet<Square> closedSet = new HashSet<Square>();
     [SerializeField] Transform par;
     Square curent;
+    int tryb;
     private void Update()
     {
         
@@ -86,7 +87,6 @@ public class AStar : MonoBehaviour
         start.H = 0;
         start.G = 0;
         ended = false;
-        
     }
 
     private void resetDat()

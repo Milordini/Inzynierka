@@ -9,6 +9,7 @@ public class Path : MonoBehaviour
 {
     [SerializeField] Button but;
     [SerializeField] private ToggleGroup algorytm;
+    [SerializeField] private ToggleGroup tryb;
     [SerializeField] AStar ast;
     [SerializeField] Djikstra dji;
     private SelectMenager SMinstance;

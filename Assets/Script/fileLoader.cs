@@ -57,7 +57,8 @@ public class fileLoader : MonoBehaviour
             i++;
             st = new Vector2(0.5f, st.y - 1);
         }
-        
+        if(line == null)
+            sr.Close();
 
     }
 
@@ -86,16 +87,18 @@ public class fileLoader : MonoBehaviour
 
         SLinstance = SelectMenager.GetInstance();
         SLinstance.setData(w, h, this.transform);
-        bM.setConfiner(w, h); 
+        bM.setConfiner(w, h);
         st = new Vector2(0.5f, -0.5f);
         reading = false;
         sr = new StreamReader(sv.path);
 
         line = sr.ReadLine();
         line = sr.ReadLine();
-        for(int i = 0; i < w; i++)
+        for (int i = 0; i < w; i++)
         {
             line = sr.ReadLine();
+            if (line == null)
+                continue;
             char[] chars = line.ToCharArray();
             j = 0;
             foreach (char c in chars)
@@ -120,16 +123,55 @@ public class fileLoader : MonoBehaviour
             }
             st = new Vector2(0.5f, st.y - 1);
         }
-        
+        sr.Close();
     }
     public void stop()
     {
         reading = false;
     }
 
-    public void saveMap()
+    public void saveMap(string path, int height, int width)
     {
-
+        SLinstance = SelectMenager.GetInstance();
+        Square[,] grid = SLinstance.GetGrid();
+        StreamWriter sw = new StreamWriter(path);
+        sw.WriteLine("type octile");
+        sw.WriteLine("height " + height.ToString());
+        sw.WriteLine("width " + width.ToString());
+        sw.WriteLine("map");
+        for (int i = 0; i < grid.GetLength(1); i++)
+        {
+            string line = "";
+            for (int j = 0; j < grid.GetLength(0); j++)
+            {
+                if (grid[j, i].canWalk)
+                    line += ".";
+                else if (!grid[j, i].canWalk)
+                    line += "@";
+            }
+            sw.WriteLine(line);
+        }
+        sw.Close();
+        paint(grid,path.Substring(path.IndexOf('\\') + 1, (path.IndexOf('.')) - (path.IndexOf('\\') + 1)));
     }
 
+    public void paint(Square[,] grid,string name)
+    {
+        Texture2D texture = new Texture2D(grid.GetLength(0), grid.GetLength(1));
+
+        for (int i = 0; i < grid.GetLength(1); i++)
+        {
+            for (int j = 0; j < grid.GetLength(0); j++)
+            {
+                if (grid[j, i].canWalk)
+                    texture.SetPixel(j,i,Color.white);
+                else if (!grid[j, i].canWalk)
+                    texture.SetPixel(j, i, Color.black);
+            }
+
+        }
+        texture.Apply();
+        byte[] bytes = texture.EncodeToPNG();
+        File.WriteAllBytes(Application.dataPath + "/Resources/maps_icon\\" + name + ".png", bytes);
+    }
 }

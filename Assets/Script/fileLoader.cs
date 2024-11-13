@@ -91,7 +91,9 @@ public class fileLoader : MonoBehaviour
         st = new Vector2(0.5f, -0.5f);
         reading = false;
         sr = new StreamReader(sv.path);
-
+        sr.DiscardBufferedData();
+        line = sr.ReadLine();
+        line = sr.ReadLine();
         line = sr.ReadLine();
         line = sr.ReadLine();
         for (int i = 0; i < w; i++)

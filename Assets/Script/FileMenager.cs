@@ -22,8 +22,7 @@ public class FileMenager : MonoBehaviour
 
     public void LoadFiles()
     {
-        var paths = Directory.GetFiles("Assets/Maps","*.map");
-        Debug.Log(paths.Length);
+        var paths = Directory.GetFiles("Inzynierka/Assets/Maps", "*.map");
         foreach (var path in paths)
         {
             newBut(path);
@@ -35,10 +34,10 @@ public class FileMenager : MonoBehaviour
     public void selectMap(GameObject gm)
     {
         fL.stop();
-       SelectMenager.GetInstance().deleteChildren(gm1);
-        for(int x = 0;x<content.childCount;x++)
+        SelectMenager.GetInstance().deleteChildren(gm1);
+        for (int x = 0; x < content.childCount; x++)
         {
-            if(content.GetChild(x).gameObject == gm)
+            if (content.GetChild(x).gameObject == gm)
                 fL.loadMapInstant(saves[x]);
         }
 
@@ -49,7 +48,7 @@ public class FileMenager : MonoBehaviour
         if (gm1.transform.childCount == 0)
             return;
         int[] tab = menu.mapOpt();
-        string path = "Assets/Maps\\" + pathText.text + ".map";
+        string path = "Inzynierka/Assets/Maps\\" + pathText.text + ".map";
         fL.saveMap(path, tab[1], tab[0]);
         newBut(path);
 
@@ -76,12 +75,12 @@ public class FileMenager : MonoBehaviour
 
     public void deleteSave(GameObject gm)
     {
-        foreach(Save s in saves)
+        foreach (Save s in saves)
         {
-            if(s.Name.Equals(gm.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text))
+            if (s.Name.Equals(gm.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text))
             {
-                File.Delete("Assets/Maps\\" + s.Name + ".map");
-                File.Delete(Application.dataPath + "/Resources/maps_icon\\" + s.Name + ".png");
+                File.Delete("Inzynierka/Assets/Maps\\" + s.Name + ".map");
+                File.Delete("Inzynierka/Assets/Resources/maps_icon\\" + s.Name + ".png");
                 saves.Remove(s);
                 Destroy(gm);
                 return;

@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 0}
+  kolorowanka: {fileID: 0}
   st: {r: 0, g: 0, b: 0, a: 0}
   sl: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &5825074193835220014

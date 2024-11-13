@@ -9,6 +9,7 @@ public class SelectMenager
     private GameObject selected1, selected2;
     private int[,] BinMap = null;
     Square[,] grid;
+    public int tryb { get; set; }
     private SelectMenager() { }
 
     public static SelectMenager GetInstance()
@@ -26,6 +27,9 @@ public class SelectMenager
 
     public void SetSelected(GameObject selected, SpriteRenderer SR)
     {
+        if (tryb != 0)
+            return;
+
         if (selected1 != selected && selected2 != selected)
         {
             if (selected1 == null)

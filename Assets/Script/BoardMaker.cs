@@ -26,7 +26,7 @@ public class BoardMaker : MonoBehaviour
     void Start()
     {
         Me = transform;
-        //BuildMap();
+        build();
 
     }
 

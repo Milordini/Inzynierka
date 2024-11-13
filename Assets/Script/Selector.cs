@@ -4,6 +4,7 @@ public class Selector : MonoBehaviour
 {
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] SelectMenager SLinstance;
+    [SerializeField] Kolorowanka kolorowanka;
     [SerializeField] Color st;
     [SerializeField] Color sl;
 

@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 public class Kolorowanka : MonoBehaviour
 {
     [SerializeField] TMP_Dropdown dp;
+    SelectMenager SL;
     List<TMP_Dropdown.OptionData> opt;
     int tryb = 0;
     private void Start()
@@ -30,14 +31,16 @@ public class Kolorowanka : MonoBehaviour
             if (hit.transform.GetComponent<SpriteRenderer>() == null)
                 return;
 
-            if (tryb == 1)
+            if (tryb == 1 && hit.transform.GetComponent<SpriteRenderer>().color == Color.black)
             {
                 hit.transform.GetComponent<SpriteRenderer>().color = Color.white;
+                hit.transform.AddComponent<Selector>();
                 hit.transform.GetComponent<Square>().canWalk = true;
             }
             else if (tryb == 2)
             {
                 hit.transform.GetComponent<SpriteRenderer>().color = Color.black;
+                Destroy(hit.transform.GetComponent<Selector>());
                 hit.transform.GetComponent<Square>().canWalk = false;
             }
         }
@@ -46,7 +49,9 @@ public class Kolorowanka : MonoBehaviour
     void onValueChange(int v)
     {
         tryb = v;
-        SelectMenager.GetInstance().tryb = v;
+        SL = SelectMenager.GetInstance();
+        SL.tryb = v;
+        SL.resSelect();
     }
 
 }

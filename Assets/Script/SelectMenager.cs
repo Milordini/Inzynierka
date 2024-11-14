@@ -68,6 +68,20 @@ public class SelectMenager
 
     }
 
+    public void resSelect()
+    {
+        if (selected1 != null)
+        {
+            selected1.GetComponent<SpriteRenderer>().color= Color.white;
+            selected1 = null;
+        }
+        if (selected2 != null)
+        {
+            selected2.GetComponent<SpriteRenderer>().color= Color.white;
+            selected2 = null;
+        }
+    }
+
     //public void makePathAStar()
     //{
     //    if(pathBoard!=null)

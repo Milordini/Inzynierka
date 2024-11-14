@@ -1,8 +1,11 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class AStar : MonoBehaviour
 {
+    [SerializeField] Menu mn;
+    [SerializeField] Transform par;
     private Square[,] grid;
     private int width;
     private int height;
@@ -11,15 +14,18 @@ public class AStar : MonoBehaviour
     Square end;
     List<Square> openSet = new List<Square>();
     HashSet<Square> closedSet = new HashSet<Square>();
-    [SerializeField] Transform par;
     Square curent;
     int tryb;
+    Stopwatch time = new Stopwatch();
+    int wisited, pathLenght;
     private void Update()
     {
 
 
         if (openSet.Count > 0)
         {
+            if(!time.IsRunning)
+                time.Start();
             if (!ended)
             {
                 curent = openSet[0];
@@ -31,7 +37,7 @@ public class AStar : MonoBehaviour
                 openSet.Remove(curent);
 
                 Instantiate(Resources.Load<GameObject>("Pref/Square (3)"), curent.transform.position, transform.rotation, par);
-
+                wisited++;
                 closedSet.Add(curent);
             }
 
@@ -41,14 +47,15 @@ public class AStar : MonoBehaviour
                 if (curent != start)
                 {
                     Instantiate(Resources.Load<GameObject>("Pref/Square (2)"), curent.transform.position, transform.rotation, par);
-
+                    pathLenght++;
                     curent = curent.parent;
                 }
                 else
                 {
                     Instantiate(Resources.Load<GameObject>("Pref/start"), start.transform.position, transform.rotation, par);
                     Instantiate(Resources.Load<GameObject>("Pref/end"), end.transform.position, transform.rotation, par);
-
+                    time.Stop();
+                    mn.setdat(wisited, pathLenght, time.ElapsedMilliseconds);
                     openSet.Clear();
                 }
 
@@ -98,7 +105,7 @@ public class AStar : MonoBehaviour
         }
     }
 
-    public void setData(Square[,] square, Square start, Square end,int tryb)
+    public void setData(Square[,] square, Square start, Square end, int tryb)
     {
         grid = square;
         width = square.GetLength(0);
@@ -126,6 +133,9 @@ public class AStar : MonoBehaviour
         }
         start = null;
         end = null;
+        wisited = pathLenght = 0;
+        mn.resetdat();
+        time.Reset();
     }
 
     private List<Square> getNeighbors(Square nd)

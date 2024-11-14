@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -6,15 +7,18 @@ using static UnityEditor.Progress;
 
 public class Djikstra : MonoBehaviour
 {
+    [SerializeField] Menu mn;
+    [SerializeField] Transform par;
     Square[,] grid;
     List<Square> q = new List<Square>();
     int width;
     int height;
     Square start, end;
-    [SerializeField] Transform par;
     Square tem;
     bool ended = true;
     int tryb;
+    int wisited, pathLenght;
+    Stopwatch time = new Stopwatch();
     private void Update()
     {
         if (ended)
@@ -22,7 +26,8 @@ public class Djikstra : MonoBehaviour
 
         if (q.Count > 0)
         {
-
+            if (!time.IsRunning)
+                time.Start();
 
             Square u = q[0];
             for (int i = 1; i < q.Count; i++)
@@ -45,6 +50,7 @@ public class Djikstra : MonoBehaviour
                     }
                     float newdistance = u.distance + getDistance(u, square);
                     Instantiate(Resources.Load<GameObject>("Pref/Square (3)"), u.transform.position, u.transform.rotation, par);
+                    wisited++;
                     if (newdistance <= square.distance)
                     {
                         square.distance = newdistance;
@@ -63,6 +69,7 @@ public class Djikstra : MonoBehaviour
                     }
                     float newdistance = u.distance + getDistance(u, square);
                     Instantiate(Resources.Load<GameObject>("Pref/Square (3)"), u.transform.position, u.transform.rotation, par);
+                    wisited++;
                     if (newdistance <= square.distance)
                     {
                         square.distance = newdistance;
@@ -77,12 +84,15 @@ public class Djikstra : MonoBehaviour
             if (tem != start)
             {
                 Instantiate(Resources.Load<GameObject>("Pref/Square (2)"), tem.transform.position, tem.transform.rotation, par);
+                pathLenght++;
                 tem = tem.parent;
             }
             else
             {
                 Instantiate(Resources.Load<GameObject>("Pref/Start"), start.transform.position, start.transform.rotation, par);
                 Instantiate(Resources.Load<GameObject>("Pref/End"), end.transform.position, end.transform.rotation, par);
+                time.Stop();
+                mn.setdat(wisited, pathLenght,time.ElapsedMilliseconds);
                 ended = true;
             }
 
@@ -147,6 +157,9 @@ public class Djikstra : MonoBehaviour
             for (int i = 0; i < par.childCount; i++)
                 Destroy(par.GetChild(i).gameObject);
         }
+        wisited = pathLenght = 0;
+        mn.resetdat();
+        time.Reset();
     }
 
     private List<Square> getNeighbors(Square nd, List<Square> lt)

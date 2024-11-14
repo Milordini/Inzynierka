@@ -13,6 +13,9 @@ public class Menu : MonoBehaviour
     [SerializeField] private TMP_InputField wid;
     [SerializeField] private TMP_InputField hei;
     [SerializeField] private GameObject scrollWiew;
+    [SerializeField] private TextMeshProUGUI Wisited;
+    [SerializeField] private TextMeshProUGUI Pathleng;
+    [SerializeField] private TextMeshProUGUI time;
     private void Start()
     {
 
@@ -52,5 +55,18 @@ public class Menu : MonoBehaviour
         scrollWiew.SetActive(!scrollWiew.activeInHierarchy);
     }
 
+    public void resetdat()
+    {
+        Wisited.SetText(string.Empty);
+        Pathleng.SetText(string.Empty);
+        time.SetText(string.Empty);
+    }
 
+    public void setdat(int w, int p,long t)
+    {
+        Wisited.SetText("Wisited cords: "+ w);
+        Pathleng.SetText("Lenght of path: " + p);
+        double seconds = t / 1000f;
+        time.SetText("Operation time: " +  seconds + "s");
+    }
 }

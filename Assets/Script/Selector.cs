@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Selector : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class Selector : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
         SLinstance = SelectMenager.GetInstance();
         SLinstance.SetSelected(this.gameObject, spriteRenderer);
     }

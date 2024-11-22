@@ -12,7 +12,8 @@ public class Menu : MonoBehaviour
     [SerializeField] private ToggleGroup pathAl;
     [SerializeField] private TMP_InputField wid;
     [SerializeField] private TMP_InputField hei;
-    [SerializeField] private GameObject scrollWiew;
+    [SerializeField] private GameObject scrollWiew_save;
+    [SerializeField] private GameObject content_results;
     [SerializeField] private TextMeshProUGUI Wisited;
     [SerializeField] private TextMeshProUGUI Pathleng;
     [SerializeField] private TextMeshProUGUI time;
@@ -52,21 +53,22 @@ public class Menu : MonoBehaviour
 
     public void FilesWindow()
     {
-        scrollWiew.SetActive(!scrollWiew.activeInHierarchy);
+        scrollWiew_save.SetActive(!scrollWiew_save.activeInHierarchy);
     }
 
-    public void resetdat()
+    public void setdat(String alg,int tryb,Square start, Square end, int w, int p,long t)
     {
-        Wisited.SetText(string.Empty);
-        Pathleng.SetText(string.Empty);
-        time.SetText(string.Empty);
-    }
-
-    public void setdat(int w, int p,long t)
-    {
-        Wisited.SetText("Wisited cords: "+ w);
-        Pathleng.SetText("Lenght of path: " + p);
+        var but = Instantiate(Resources.Load<GameObject>("Pref/Button"));
+        var pan = Instantiate(Resources.Load<GameObject>("Pref/Info_Panel"));
+        but.GetComponent<Button>().onClick.AddListener(() => { pan.SetActive(!pan.activeInHierarchy); });
+        but.transform.parent = content_results.transform;
+        pan.transform.parent = content_results.transform;
+        pan.transform.GetChild(0).GetComponent<TextMeshProUGUI>().SetText(alg + " x" + tryb);
+        pan.transform.GetChild(1).GetComponent<TextMeshProUGUI>().SetText("(" + start.X + "," + start.Y + ")");
+        pan.transform.GetChild(2).GetComponent<TextMeshProUGUI>().SetText("(" + end.X + "," + end.Y + ")");
+        pan.transform.GetChild(3).GetComponent<TextMeshProUGUI>().SetText(w.ToString());
+        pan.transform.GetChild(4).GetComponent<TextMeshProUGUI>().SetText(p.ToString());
         double seconds = t / 1000f;
-        time.SetText("Operation time: " +  seconds + "s");
+        pan.transform.GetChild(5).GetComponent<TextMeshProUGUI>().SetText(seconds.ToString());
     }
 }

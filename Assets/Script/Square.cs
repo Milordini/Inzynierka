@@ -28,4 +28,8 @@ public class Square : MonoBehaviour
         distance = 0;
     }
 
+    private void OnMouseOver()
+    {
+        Debug.Log(X + " " + Y);
+    }
 }

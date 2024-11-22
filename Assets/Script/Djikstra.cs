@@ -92,7 +92,7 @@ public class Djikstra : MonoBehaviour
                 Instantiate(Resources.Load<GameObject>("Pref/Start"), start.transform.position, start.transform.rotation, par);
                 Instantiate(Resources.Load<GameObject>("Pref/End"), end.transform.position, end.transform.rotation, par);
                 time.Stop();
-                mn.setdat("Djikstra", tryb, start, end, wisited, pathLenght, time.ElapsedMilliseconds);
+                mn.setdat(new CSV("Djikstra", tryb, start, end, wisited, pathLenght, time.ElapsedMilliseconds));
                 ended = true;
             }
 

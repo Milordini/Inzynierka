@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 public class Menu : MonoBehaviour
 {
@@ -14,9 +15,8 @@ public class Menu : MonoBehaviour
     [SerializeField] private TMP_InputField hei;
     [SerializeField] private GameObject scrollWiew_save;
     [SerializeField] private GameObject content_results;
-    [SerializeField] private TextMeshProUGUI Wisited;
-    [SerializeField] private TextMeshProUGUI Pathleng;
-    [SerializeField] private TextMeshProUGUI time;
+    private List<CSV> results = new List<CSV>();
+
     private void Start()
     {
 
@@ -56,19 +56,30 @@ public class Menu : MonoBehaviour
         scrollWiew_save.SetActive(!scrollWiew_save.activeInHierarchy);
     }
 
-    public void setdat(String alg,int tryb,Square start, Square end, int w, int p,long t)
+    public void setdat(CSV file)
     {
+        results.Add(file);
         var but = Instantiate(Resources.Load<GameObject>("Pref/Button"));
         var pan = Instantiate(Resources.Load<GameObject>("Pref/Info_Panel"));
         but.GetComponent<Button>().onClick.AddListener(() => { pan.SetActive(!pan.activeInHierarchy); });
         but.transform.parent = content_results.transform;
         pan.transform.parent = content_results.transform;
-        pan.transform.GetChild(0).GetComponent<TextMeshProUGUI>().SetText(alg + " x" + tryb);
-        pan.transform.GetChild(1).GetComponent<TextMeshProUGUI>().SetText("(" + start.X + "," + start.Y + ")");
-        pan.transform.GetChild(2).GetComponent<TextMeshProUGUI>().SetText("(" + end.X + "," + end.Y + ")");
-        pan.transform.GetChild(3).GetComponent<TextMeshProUGUI>().SetText(w.ToString());
-        pan.transform.GetChild(4).GetComponent<TextMeshProUGUI>().SetText(p.ToString());
-        double seconds = t / 1000f;
-        pan.transform.GetChild(5).GetComponent<TextMeshProUGUI>().SetText(seconds.ToString());
+        pan.transform.GetChild(0).GetComponent<TextMeshProUGUI>().SetText(file.Algorithm + " x" + file.Tryb);
+        pan.transform.GetChild(1).GetComponent<TextMeshProUGUI>().SetText("(" + file.Start.X + "," + file.Start.Y + ")");
+        pan.transform.GetChild(2).GetComponent<TextMeshProUGUI>().SetText("(" + file.End.X + "," + file.End.Y + ")");
+        pan.transform.GetChild(3).GetComponent<TextMeshProUGUI>().SetText(file.Traced.ToString());
+        pan.transform.GetChild(4).GetComponent<TextMeshProUGUI>().SetText(file.pathLenght.ToString());
+        pan.transform.GetChild(5).GetComponent<TextMeshProUGUI>().SetText(file.Time.ToString());
+    }
+
+    public void SaveFileCSV()
+    {
+        StreamWriter sw = new StreamWriter("plik.csv");
+        sw.WriteLine("algorithm;tryb;start;end;traced;pathLenght;time");
+        foreach(CSV csv in results)
+        {
+            sw.WriteLine(csv.toCSV());
+        }
+        sw.Close();
     }
 }

@@ -55,7 +55,7 @@ public class AStar : MonoBehaviour
                     Instantiate(Resources.Load<GameObject>("Pref/start"), start.transform.position, transform.rotation, par);
                     Instantiate(Resources.Load<GameObject>("Pref/end"), end.transform.position, transform.rotation, par);
                     time.Stop();
-                    mn.setdat("AStar",tryb,start,end,wisited, pathLenght, time.ElapsedMilliseconds);
+                    mn.setdat(new CSV("AStar",tryb,start,end,wisited, pathLenght, time.ElapsedMilliseconds)); 
                     openSet.Clear();
                 }
 

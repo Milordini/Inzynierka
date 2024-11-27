@@ -20,6 +20,7 @@ public class Menu : MonoBehaviour
     [SerializeField] private TextMeshProUGUI end_pos;
     static private Menu inst;
     private List<CSV> results = new List<CSV>();
+    [SerializeField] private GameObject pathBoard;
 
     private void Start()
     {
@@ -115,4 +116,8 @@ public class Menu : MonoBehaviour
     {
         return inst;
     }
+
+    public void wyœwietl_pathBoard() { pathBoard.SetActive(true); }
+    public void wyœwietl_makerBoard() { pathBoard.SetActive(false); }
+    
 }

@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using Unity.VisualScripting;
+using System.Diagnostics;
 
 public class Menu : MonoBehaviour
 {
@@ -119,5 +120,15 @@ public class Menu : MonoBehaviour
 
     public void wyœwietl_pathBoard() { pathBoard.SetActive(true); }
     public void wyœwietl_makerBoard() { pathBoard.SetActive(false); }
-    
+
+    public void openFolder()
+    {
+        Process.Start(new ProcessStartInfo()
+        {
+            FileName = ".",
+            UseShellExecute = true,
+            Verb = "open"
+        });
+    }
+
 }

@@ -8,18 +8,14 @@ using UnityEngine.UIElements;
 
 public class Kolorowanka : MonoBehaviour
 {
-    [SerializeField] TMP_Dropdown dp;
-    SelectMenager SL;
-    List<TMP_Dropdown.OptionData> opt;
-    int tryb = 0;
+    int tryb = 3;
     private void Start()
     {
-        opt = dp.options;
-        dp.onValueChanged.AddListener(onValueChange);
+        SelectMenager.GetInstance().tryb = tryb;
     }
     void Update()
     {
-        if (tryb == 0)
+        if (tryb == 0 || tryb == 3)
             return;
 
         if (Input.GetMouseButton(0))
@@ -46,12 +42,17 @@ public class Kolorowanka : MonoBehaviour
         }
     }
 
-    void onValueChange(int v)
+    public void mode(int x)
     {
-        tryb = v;
-        SL = SelectMenager.GetInstance();
-        SL.tryb = v;
-        SL.resSelect();
-    }
+        if(x != tryb)
+        {
+            tryb = x;
+            SelectMenager.GetInstance().tryb = tryb;
+        }else if (x == tryb)
+        {
+            tryb = 3;
+            SelectMenager.GetInstance().tryb = tryb;
+        }
 
+    }
 }

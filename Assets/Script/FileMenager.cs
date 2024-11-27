@@ -13,7 +13,6 @@ public class FileMenager : MonoBehaviour
     [SerializeField] fileLoader fL;
     [SerializeField] Menu menu;
     [SerializeField] TMP_InputField pathText;
-    [SerializeField] GameObject gm;
     [SerializeField] GameObject gm1;
     private void Start()
     {

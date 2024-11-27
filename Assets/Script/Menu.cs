@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using Unity.VisualScripting;
 
 public class Menu : MonoBehaviour
 {
@@ -15,11 +16,14 @@ public class Menu : MonoBehaviour
     [SerializeField] private TMP_InputField hei;
     [SerializeField] private GameObject scrollWiew_save;
     [SerializeField] private GameObject content_results;
+    [SerializeField] private TextMeshProUGUI start_pos;
+    [SerializeField] private TextMeshProUGUI end_pos;
+    static private Menu inst;
     private List<CSV> results = new List<CSV>();
 
     private void Start()
     {
-
+        inst = this;
     }
 
     public int[] mapOpt()
@@ -34,7 +38,7 @@ public class Menu : MonoBehaviour
 
     private int togSelect(Toggle tg, int poz)
     {
-        char x = tg.gameObject.name[poz-1];
+        char x = tg.gameObject.name[poz - 1];
         switch (x)
         {
             case 'W': { poz = 0; } break;
@@ -45,7 +49,7 @@ public class Menu : MonoBehaviour
         return poz;
     }
 
-    public void updateFields(int w,int h)
+    public void updateFields(int w, int h)
     {
         wid.text = w.ToString();
         hei.text = h.ToString();
@@ -76,10 +80,39 @@ public class Menu : MonoBehaviour
     {
         StreamWriter sw = new StreamWriter("plik.csv");
         sw.WriteLine("algorithm;tryb;start;end;traced;pathLenght;time");
-        foreach(CSV csv in results)
+        foreach (CSV csv in results)
         {
             sw.WriteLine(csv.toCSV());
         }
         sw.Close();
+    }
+
+    public void SetStart(Square sq)
+    {
+        if (sq != null)
+        {
+            start_pos.text = sq.X + "," + sq.Y;
+        }
+        else
+        {
+            start_pos.text = "Start position";
+        }
+    }
+
+    public void SetEnd(Square sq)
+    {
+        if (sq != null)
+        {
+            end_pos.text = sq.X + "," + sq.Y;
+        }
+        else
+        {
+            end_pos.text = "End position";
+        }
+    }
+
+    static public Menu getInst()
+    {
+        return inst;
     }
 }

@@ -36,20 +36,24 @@ public class SelectMenager
             {
                 selected1 = selected;
                 SR.color = Color.green;
+                Menu.getInst().SetStart(selected.GetComponent<Square>());
             }
             else if (selected2 == null)
             {
                 selected2 = selected;
                 SR.color = Color.blue;
+                Menu.getInst().SetEnd(selected.GetComponent<Square>());
             }
             else
             {
                 selected1.GetComponent<SpriteRenderer>().color = Color.white;
                 selected1 = selected2;
                 selected1.GetComponent<SpriteRenderer>().color = Color.green;
+                Menu.getInst().SetStart(selected1.GetComponent<Square>());
 
                 selected2 = selected;
                 SR.color = Color.blue;
+                Menu.getInst().SetEnd(selected.GetComponent<Square>());
             }
         }
         else
@@ -58,11 +62,13 @@ public class SelectMenager
             {
                 selected1.GetComponent<SpriteRenderer>().color = Color.white;
                 selected1 = null;
+                Menu.getInst().SetStart(null);
             }
             else if (selected2 == selected)
             {
                 selected2.GetComponent<SpriteRenderer>().color = Color.white;
                 selected2 = null;
+                Menu.getInst().SetEnd(null);
             }
         }
 

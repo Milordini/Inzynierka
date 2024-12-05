@@ -85,6 +85,7 @@ public class fileLoader : MonoBehaviour
         h = bM.setHeight(sv.Height);
         w = bM.setWidth(sv.Width);
 
+        Menu.getInst().refreshMapName(sv.Name);
         SLinstance = SelectMenager.GetInstance();
         SLinstance.setData(w, h, this.transform);
         bM.setConfiner(w, h);

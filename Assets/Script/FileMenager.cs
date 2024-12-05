@@ -51,7 +51,7 @@ public class FileMenager : MonoBehaviour
         string path = "Assets/Maps\\" + pathText.text + ".map";
         fL.saveMap(path, tab[1], tab[0]);
         newBut(path);
-
+        Menu.getInst().refreshMapName( pathText.text);
     }
 
     private void newBut(string path)

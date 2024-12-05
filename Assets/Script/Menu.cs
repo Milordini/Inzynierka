@@ -22,6 +22,8 @@ public class Menu : MonoBehaviour
     static private Menu inst;
     private List<CSV> results = new List<CSV>();
     [SerializeField] private GameObject pathBoard;
+    [SerializeField] private TextMeshProUGUI mapNameArea;
+    private string mapName = "Temp";
 
     private void Start()
     {
@@ -80,7 +82,7 @@ public class Menu : MonoBehaviour
 
     public void SaveFileCSV()
     {
-        StreamWriter sw = new StreamWriter("plik.csv");
+        StreamWriter sw = new StreamWriter("Assets/CSV\\" + mapName + ".csv");
         sw.WriteLine("algorithm;tryb;start;end;traced;pathLenght;time");
         foreach (CSV csv in results)
         {
@@ -121,14 +123,26 @@ public class Menu : MonoBehaviour
     public void wyœwietl_pathBoard() { pathBoard.SetActive(true); }
     public void wyœwietl_makerBoard() { pathBoard.SetActive(false); }
 
-    public void openFolder()
+    public void openFolder(string path)
     {
         Process.Start(new ProcessStartInfo()
         {
-            FileName = ".",
+            FileName = path,
             UseShellExecute = true,
             Verb = "open"
         });
     }
 
+    public void refreshMapName()
+    {
+        mapNameArea.text = mapName;
+    }
+
+    public void refreshMapName(string newName)
+    {
+        mapName = newName;
+        mapNameArea.text = mapName;
+    }
+
+    public string getMapNAme() { return mapName; }
 }

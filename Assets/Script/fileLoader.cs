@@ -97,7 +97,7 @@ public class fileLoader : MonoBehaviour
         line = sr.ReadLine();
         line = sr.ReadLine();
         line = sr.ReadLine();
-        for (int i = 0; i < w; i++)
+        for (int i = 0; i < h; i++)
         {
             line = sr.ReadLine();
             if (line == null)

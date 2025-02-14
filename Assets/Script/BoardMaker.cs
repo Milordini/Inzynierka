@@ -227,7 +227,7 @@ public class BoardMaker : MonoBehaviour
     private void doPliku(int[,] tab)
     {
         //Pass the filepath and filename to the StreamWriter Constructor
-        StreamWriter sw = new StreamWriter("Assets/test.txt");
+        StreamWriter sw = new StreamWriter("Inzynierka/Assets/test.txt");
         for (int i = 0; i < h; i++)
         {
             for (int j = 0; j < w; j++)

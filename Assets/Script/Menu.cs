@@ -82,7 +82,7 @@ public class Menu : MonoBehaviour
 
     public void SaveFileCSV()
     {
-        StreamWriter sw = new StreamWriter("Assets/CSV\\" + mapName + ".csv");
+        StreamWriter sw = new StreamWriter("Inzynierka/Assets/CSV\\" + mapName + ".csv");
         sw.WriteLine("algorithm;tryb;start;end;traced;pathLenght;time");
         foreach (CSV csv in results)
         {

@@ -21,7 +21,7 @@ public class FileMenager : MonoBehaviour
 
     public void LoadFiles()
     {
-        var paths = Directory.GetFiles("Assets/Maps","*.map");
+        var paths = Directory.GetFiles("Inzynierka/Assets/Maps", "*.map");
         Debug.Log(paths.Length);
         foreach (var path in paths)
         {
@@ -48,7 +48,7 @@ public class FileMenager : MonoBehaviour
         if (gm1.transform.childCount == 0)
             return;
         int[] tab = menu.mapOpt();
-        string path = "Assets/Maps\\" + pathText.text + ".map";
+        string path = "Inzynierka/Assets/Maps\\" + pathText.text + ".map";
         fL.saveMap(path, tab[1], tab[0]);
         newBut(path);
         Menu.getInst().refreshMapName( pathText.text);
@@ -79,8 +79,8 @@ public class FileMenager : MonoBehaviour
         {
             if(s.Name.Equals(gm.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text))
             {
-                File.Delete("Assets/Maps\\" + s.Name + ".map");
-                File.Delete(Application.dataPath + "/Resources/maps_icon\\" + s.Name + ".png");
+                File.Delete("Inzynierka/Assets/Maps\\" + s.Name + ".map");
+                File.Delete("Inzynierka/Assets/Resources/maps_icon\\" + s.Name + ".png");
                 saves.Remove(s);
                 Destroy(gm);
                 return;

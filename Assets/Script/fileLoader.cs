@@ -177,6 +177,6 @@ public class fileLoader : MonoBehaviour
         }
         texture.Apply();
         byte[] bytes = texture.EncodeToPNG();
-        File.WriteAllBytes(Application.dataPath + "/Resources/maps_icon\\" + name + ".png", bytes);
+        File.WriteAllBytes("Inzynierka/Assets/Resources/maps_icon\\" + name + ".png", bytes);
     }
 }

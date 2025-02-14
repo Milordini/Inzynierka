@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 93aa946d871ea904b87e8bd10a7be545
+guid: 3f0e29c7941b0b94facb869ec6ad69b4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3906071815777116749
-    second: maze512-1-5_0
+      213: 1869376862537543319
+    second: ught_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: maze512-1-5_0
+      name: ught_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 1
-        width: 1071
-        height: 1071
+        x: 0
+        y: 0
+        width: 107
+        height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,8 +140,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3bd9079f068dac9c0800000000000000
-      internalID: -3906071815777116749
+      spriteID: 79e62e22a5c51f910800000000000000
+      internalID: 1869376862537543319
       vertices: []
       indices: 
       edges: []
@@ -156,8 +156,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      maze512-1-5_0: -3906071815777116749
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

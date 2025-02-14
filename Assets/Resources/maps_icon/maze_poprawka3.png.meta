@@ -156,7 +156,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      maze_poprawka3_0: -5284006315525909823
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

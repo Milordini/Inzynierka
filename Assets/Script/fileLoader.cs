@@ -84,8 +84,7 @@ public class fileLoader : MonoBehaviour
     {
         h = bM.setHeight(sv.Height);
         w = bM.setWidth(sv.Width);
-        h = 120;
-        w = 160;
+
         Menu.getInst().refreshMapName(sv.Name);
         SLinstance = SelectMenager.GetInstance();
         SLinstance.setData(w, h, this.transform);
@@ -107,10 +106,8 @@ public class fileLoader : MonoBehaviour
                 continue;
             char[] chars = line.ToCharArray();
             j = 0;
-            //foreach (char c in chars)
-            for(j=0;j<w;j++)
+            foreach (char c in chars)
             {
-                char c = chars[j];
                 if (c == '.')
                 {
                     Square sq = Instantiate(WSquare, st, transform.rotation, transform).GetComponent<Square>();
@@ -127,7 +124,7 @@ public class fileLoader : MonoBehaviour
                     sq.canWalk = false;
                     st += Vector2.right;
                 }
-                //j++;
+                j++;
             }
             st = new Vector2(0.5f, st.y - 1);
         }

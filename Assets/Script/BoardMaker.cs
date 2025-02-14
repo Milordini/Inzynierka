@@ -242,4 +242,9 @@ public class BoardMaker : MonoBehaviour
 
     public int setHeight(int h) { return this.h = h; }
     public int setWidth(int w) { return this.w = w; }
+    
+    public void sysOut()
+    {
+        Application.Quit();
+    }
 }

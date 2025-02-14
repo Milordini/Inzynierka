@@ -1,0 +1,5 @@
+algorithm;tryb;start;end;traced;pathLenght;time
+Djikstra;4;92,102;82,58;36190;62;304,868
+Djikstra;8;92,102;82,58;14483;45;126,895
+AStar;4;92,102;82,58;675;62;13,119
+AStar;8;92,102;82,58;307;45;6,18

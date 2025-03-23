@@ -1,7 +1,4 @@
-using System.IO;
 using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class SelectMenager
@@ -12,7 +9,7 @@ public class SelectMenager
     private GameObject selected1, selected2;
     private int[,] BinMap = null;
     Square[,] grid;
-    GameObject pathBoard;
+    public int tryb { get; set; }
     private SelectMenager() { }
 
     public static SelectMenager GetInstance()
@@ -30,26 +27,33 @@ public class SelectMenager
 
     public void SetSelected(GameObject selected, SpriteRenderer SR)
     {
+        if (tryb != 0)
+            return;
+
         if (selected1 != selected && selected2 != selected)
         {
             if (selected1 == null)
             {
                 selected1 = selected;
                 SR.color = Color.green;
+                Menu.getInst().SetStart(selected.GetComponent<Square>());
             }
             else if (selected2 == null)
             {
                 selected2 = selected;
                 SR.color = Color.blue;
+                Menu.getInst().SetEnd(selected.GetComponent<Square>());
             }
             else
             {
                 selected1.GetComponent<SpriteRenderer>().color = Color.white;
                 selected1 = selected2;
                 selected1.GetComponent<SpriteRenderer>().color = Color.green;
+                Menu.getInst().SetStart(selected1.GetComponent<Square>());
 
                 selected2 = selected;
                 SR.color = Color.blue;
+                Menu.getInst().SetEnd(selected.GetComponent<Square>());
             }
         }
         else
@@ -58,48 +62,68 @@ public class SelectMenager
             {
                 selected1.GetComponent<SpriteRenderer>().color = Color.white;
                 selected1 = null;
+                Menu.getInst().SetStart(null);
             }
             else if (selected2 == selected)
             {
                 selected2.GetComponent<SpriteRenderer>().color = Color.white;
                 selected2 = null;
+                Menu.getInst().SetEnd(null);
             }
         }
 
     }
 
-    public void makePathAStar()
+    public void resSelect()
     {
-        if(pathBoard!=null)
-            clearPath();
-        List<Square> traced = new List<Square>();
-        AStar ast = new AStar(GetGrid(height, width));
-        List<Square> path = ast.findPath(selected1.GetComponent<Square>(), selected2.GetComponent<Square>(),traced);
-        pathBoard = new GameObject();
-        pathBoard.transform.position = Vector3.zero;
-        BoardMaker.pathScreen(path, pathBoard.transform,traced);
+        if (selected1 != null)
+        {
+            selected1.GetComponent<SpriteRenderer>().color= Color.white;
+            selected1 = null;
+        }
+        if (selected2 != null)
+        {
+            selected2.GetComponent<SpriteRenderer>().color= Color.white;
+            selected2 = null;
+        }
     }
 
-    public void makePathDjikstra()
+    //public void makePathAStar()
+    //{
+    //    if(pathBoard!=null)
+    //        clearPath();
+
+    //    AStar ast = new AStar(GetGrid(height, width));
+    //    List<Square> path = ast.findPath(selected1.GetComponent<Square>(), selected2.GetComponent<Square>(),traced);
+    //    pathBoard = new GameObject();
+    //    pathBoard.transform.position = Vector3.zero;
+    //    BoardMaker.pathScreen(path, pathBoard.transform,traced);
+    //}
+
+    //public void makePathDjikstra()
+    //{
+    //    if (pathBoard != null)
+    //        clearPath();
+    //    List<Square> traced = new List<Square>();
+    //    Djikstra dj = new Djikstra(GetGrid());
+    //    List<Square> path = dj.findPath(selected1.GetComponent<Square>(), selected2.GetComponent<Square>(),traced);
+    //    pathBoard = new GameObject();
+    //    pathBoard.transform.position = Parent.position;
+    //    BoardMaker.pathScreen(path, pathBoard.transform,traced);
+    //}
+
+    public void deleteChildren(GameObject parent)
     {
-        if (pathBoard != null)
-            clearPath();
-        List<Square> traced = new List<Square>();
-        Djikstra dj = new Djikstra(GetGrid(height, width));
-        List<Square> path = dj.findPath(selected1.GetComponent<Square>(), selected2.GetComponent<Square>(),traced);
-        pathBoard = new GameObject();
-        pathBoard.transform.position = Parent.position;
-        BoardMaker.pathScreen(path, pathBoard.transform,traced);
+        if (parent.transform.childCount != 0)
+        {
+            for (int i = 0; i < parent.transform.childCount; i++)
+                GameObject.Destroy(parent.transform.GetChild(i).gameObject);
+        }
     }
 
-    public void clearPath()
+    public Square[,] GetGrid()
     {
-        GameObject.Destroy(pathBoard);
-    }
-
-    public Square[,] GetGrid(int height, int width)
-    {
-        grid = new Square[width, height];//emolium szampon dow ³osów
+        grid = new Square[width, height];
         for (int i = 0; i < height; i++)
         {
             for (int j = 0; j < width; j++)

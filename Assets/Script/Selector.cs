@@ -1,23 +1,22 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Selector : MonoBehaviour
 {
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] SelectMenager SLinstance;
-    [SerializeField] Color st;
-    [SerializeField] Color sl;
 
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        st = spriteRenderer.color;
-        sl = Color.blue;
-
     }
 
     private void OnMouseDown()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
         SLinstance = SelectMenager.GetInstance();
-        SLinstance.SetSelected(this.gameObject,spriteRenderer);
+        SLinstance.SetSelected(this.gameObject, spriteRenderer);
     }
+    
 }
